@@ -1,0 +1,6 @@
+734: <h1 data-tr="Geleceğin<br>
+
+786: <h2 class="section-title" data-tr="Uçtan Uca Ödeme<br>
+
+820: <h2 class="section-title" data-tr="Her Sektöre Özel<br>
+

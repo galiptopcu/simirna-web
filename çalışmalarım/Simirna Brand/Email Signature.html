@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simirna — E-posta İmzası</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#EEF1F5;font-family:'Manrope',system-ui,sans-serif;color:#0A2540;padding:56px 24px 90px;}
+  .wrap{max-width:760px;margin:0 auto;}
+  h1{font-size:24px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;}
+  h1 b{color:#0066FF;}
+  .lead{font-family:'JetBrains Mono',monospace;font-size:12px;color:#7B8794;letter-spacing:.04em;line-height:1.8;margin-bottom:34px;}
+  .step{font-family:'JetBrains Mono',monospace;font-size:12px;color:#5A6B7B;line-height:1.9;
+    background:#fff;border:1px solid #DCE2EA;border-radius:14px;padding:18px 22px;margin-bottom:26px;}
+  .step b{color:#0A2540;}
+  .label{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.18em;
+    color:#7B8794;margin:0 0 14px;display:flex;align-items:center;gap:10px;}
+  .label::before{content:"";width:18px;height:1px;background:#7B8794;}
+  .preview{background:#fff;border:1px solid #DCE2EA;border-radius:16px;padding:36px;margin-bottom:34px;}
+  pre{background:#0A2540;color:#CDE0FF;border-radius:14px;padding:22px;overflow:auto;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;}
+  .note{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B8794;line-height:1.8;margin-top:14px;}
+  .note b{color:#0A2540;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Simirna<b> Technology</b> — E-posta İmzası</h1>
+  <p class="lead">Aşağıdaki imzayı kopyalayıp Gmail / Outlook / Apple Mail imza ayarlarına yapıştırın.</p>
+
+  <div class="step">
+    <b>Kurulum.</b> 1) Logo görselini bir yere yükleyin (örn. siteniz: <b>simirnatech.com/img/logo.png</b>).
+    2) Koddaki <b>LOGO_URL</b> ve kişisel bilgileri değiştirin. 3) Gmail → Ayarlar → İmza alanına yapıştırın.
+    Not: E-posta istemcileri SVG desteklemez; imzada her zaman <b>PNG</b> kullanın
+    (<b>png/simirna-icon-512.png</b> veya <b>png/simirna-logo-horizontal-2x.png</b>).
+  </div>
+
+  <div class="label">Önizleme</div>
+  <div class="preview">
+    <!-- ===== KOPYALANACAK İMZA BAŞLANGIÇ ===== -->
+    <table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;color:#0A2540;">
+      <tr>
+        <td style="vertical-align:middle;padding-right:18px;">
+          <img src="png/simirna-icon-512.png" alt="Simirna Technology" width="60" height="60" style="display:block;border:0;">
+        </td>
+        <td style="vertical-align:middle;padding-right:18px;">
+          <div style="width:2px;height:64px;background:#0066FF;font-size:0;line-height:0;">&nbsp;</div>
+        </td>
+        <td style="vertical-align:middle;">
+          <div style="font-size:16px;font-weight:bold;color:#0A2540;letter-spacing:.2px;">Ad Soyad</div>
+          <div style="font-size:13px;color:#0066FF;font-weight:bold;padding-top:2px;">Pozisyon / Ünvan</div>
+          <div style="font-size:13px;color:#0A2540;padding-top:5px;">
+            <span style="color:#0066FF;font-weight:bold;">Simi</span><span style="font-weight:bold;">rna</span> Technology A.Ş.
+          </div>
+          <div style="font-size:12px;color:#5A6B7B;padding-top:8px;line-height:1.7;">
+            T&nbsp;+90 5xx xxx xx xx&nbsp;&nbsp;·&nbsp;&nbsp;E&nbsp;ad@simirnatech.com<br>
+            <a href="https://simirnatech.com" style="color:#0066FF;text-decoration:none;">simirnatech.com</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!-- ===== KOPYALANACAK İMZA BİTİŞ ===== -->
+  </div>
+
+  <div class="label">Kod (HTML)</div>
+  <pre>&lt;table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;color:#0A2540;"&gt;
+  &lt;tr&gt;
+    &lt;td style="vertical-align:middle;padding-right:18px;"&gt;
+      &lt;img src="LOGO_URL" alt="Simirna Technology" width="60" height="60" style="display:block;border:0;"&gt;
+    &lt;/td&gt;
+    &lt;td style="vertical-align:middle;padding-right:18px;"&gt;
+      &lt;div style="width:2px;height:64px;background:#0066FF;font-size:0;line-height:0;"&gt;&amp;nbsp;&lt;/div&gt;
+    &lt;/td&gt;
+    &lt;td style="vertical-align:middle;"&gt;
+      &lt;div style="font-size:16px;font-weight:bold;color:#0A2540;"&gt;Ad Soyad&lt;/div&gt;
+      &lt;div style="font-size:13px;color:#0066FF;font-weight:bold;padding-top:2px;"&gt;Pozisyon / Ünvan&lt;/div&gt;
+      &lt;div style="font-size:13px;color:#0A2540;padding-top:5px;"&gt;
+        &lt;span style="color:#0066FF;font-weight:bold;"&gt;Simi&lt;/span&gt;&lt;span style="font-weight:bold;"&gt;rna&lt;/span&gt; Technology A.Ş.
+      &lt;/div&gt;
+      &lt;div style="font-size:12px;color:#5A6B7B;padding-top:8px;line-height:1.7;"&gt;
+        T&amp;nbsp;+90 5xx xxx xx xx&amp;nbsp;&amp;nbsp;·&amp;nbsp;&amp;nbsp;E&amp;nbsp;ad@simirnatech.com&lt;br&gt;
+        &lt;a href="https://simirnatech.com" style="color:#0066FF;text-decoration:none;"&gt;simirnatech.com&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+  <p class="note"><b>LOGO_URL</b> → yüklediğiniz logo PNG'sinin tam adresi.
+  Yatay logo isterseniz <b>simirna-logo-horizontal-2x.png</b> kullanıp width="220" verin ve dikey çizgi/ikon hücrelerini kaldırın.</p>
+</div>
+</body>
+</html>

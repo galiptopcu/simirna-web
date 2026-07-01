@@ -1,0 +1,2435 @@
+<!DOCTYPE html>
+<html lang="tr" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simirna – Ödeme Çözümleri Teknolojileri</title>
+<meta name="description" content="Uçtan uca kapalı devre ödeme sistemleri, POS uygulama geliştirme ve kart üretiminde güvenilir teknoloji ortağı.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════ */
+:root {
+  --blue-deep: #0A2540;
+  --blue-mid: #1B4F8A;
+  --blue-bright: #2D7DD2;
+  --blue-light: #5BA3F5;
+  --blue-pale: #EAF2FF;
+  --accent: #0066FF;
+  --white: #FFFFFF;
+  --gray-50: #F8FAFD;
+  --gray-100: #EEF2F8;
+  --gray-300: #B0BEC5;
+  --gray-500: #607D8B;
+  --gray-700: #37474F;
+  --text-main: #0A2540;
+  --text-sub: #546e7a;
+  --radius: 16px;
+  --shadow-sm: 0 2px 12px rgba(0,102,255,0.08);
+  --shadow-md: 0 8px 40px rgba(0,102,255,0.13);
+  --shadow-lg: 0 24px 80px rgba(10,37,64,0.15);
+  --nav-h: 70px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--text-main);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+h1,h2,h3,h4,h5 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.18; }
+
+/* ══════════════════════════════════════
+   PAGES (SPA routing)
+══════════════════════════════════════ */
+.page { display: none; min-height: calc(100vh - var(--nav-h)); }
+.page.active { display: block; min-height: calc(100vh - var(--nav-h)); }
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,102,255,0.07);
+  height: var(--nav-h);
+  display: flex; align-items: center;
+  padding: 0 5vw;
+  transition: box-shadow .3s;
+}
+nav.scrolled { box-shadow: var(--shadow-md); }
+
+.nav-inner {
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex; align-items: center; gap: 0;
+  text-decoration: none; cursor: pointer; line-height: 0;
+}
+.nav-logo-mark {
+  display: none;
+}
+.nav-logo-text {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700;
+  font-size: 22px; color: var(--blue-deep); letter-spacing: -.5px;
+}
+
+/* Nav menu */
+.nav-menu { display: flex; align-items: center; gap: 4px; height: 100%; }
+
+.nav-item { position: relative; padding-bottom: 10px; margin-bottom: -10px; display: flex; align-items: center; }
+
+.nav-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 40px; padding: 0 14px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--gray-700);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s, background .2s;
+  white-space: nowrap; border: none; background: none;
+  font-family: 'Inter', sans-serif;
+}
+.nav-link:hover, .nav-link.active-page { color: var(--accent); background: var(--blue-pale); }
+.nav-item > .nav-link { cursor: pointer; }
+
+.nav-chevron {
+  width: 14px; height: 14px; display: inline-flex;
+  align-items: center; justify-content: center;
+  transition: transform .25s;
+  opacity: .6; flex-shrink: 0;
+}
+.nav-item:hover .nav-chevron { transform: rotate(180deg); opacity: 1; }
+
+/* Dropdown */
+.nav-dropdown {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  background: white; border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(10,37,64,0.15), 0 0 0 1px rgba(0,102,255,0.08);
+  padding: 10px; min-width: 280px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateX(-50%) translateY(-6px);
+  transition: opacity .2s, transform .2s, visibility .2s;
+}
+.nav-item:hover .nav-dropdown {
+  opacity: 1; visibility: visible; pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+/* Wide dropdown for Çözümler */
+.nav-dropdown.wide { min-width: 540px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+
+.dd-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: 10px;
+  cursor: pointer; transition: background .2s;
+  text-decoration: none;
+}
+.dd-item:hover { background: var(--blue-pale); }
+.dd-icon {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: var(--blue-pale); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; transition: background .2s;
+}
+.dd-item:hover .dd-icon { background: rgba(0,102,255,0.15); }
+.dd-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--blue-deep); margin-bottom: 2px; }
+.dd-desc { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
+
+.dd-divider { grid-column: 1/-1; height: 1px; background: var(--gray-100); margin: 4px 0; }
+
+/* Nav right */
+.nav-right { display: flex; align-items: center; gap: 16px; height: 100%; }
+.nav-lang { display: flex; gap: 4px; align-items: center; }
+.nav-lang .lang-btn {
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  padding: 4px 9px; border-radius: 6px;
+  transition: background .2s; color: var(--gray-500);
+  line-height: 1; display: inline-flex; align-items: center;
+  text-decoration: none;
+}
+.nav-lang .lang-btn.active { background: var(--blue-pale); color: var(--accent); }
+.nav-cta {
+  background: var(--accent); color: white;
+  padding: 9px 20px; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 13px;
+  cursor: pointer; text-decoration: none; border: none;
+  box-shadow: 0 4px 14px rgba(0,102,255,0.28);
+  transition: all .2s; white-space: nowrap;
+  display: inline-flex; align-items: center; line-height: 1;
+}
+.nav-cta:hover { background: #0052CC; transform: translateY(-1px); }
+
+/* Mobile nav — hamburger + slide-down panel */
+.nav-burger {
+  display: none; flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
+  border: none; background: none; cursor: pointer; padding: 0;
+}
+.nav-burger span {
+  display: block; width: 22px; height: 2px; border-radius: 2px;
+  background: var(--blue-deep);
+  transition: transform .25s ease, opacity .2s ease;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  background: white; z-index: 999; overflow-y: auto;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-12px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.mobile-menu.open { opacity: 1; visibility: visible; pointer-events: all; transform: translateY(0); }
+.mobile-menu-inner { padding: 18px 6vw 48px; display: flex; flex-direction: column; }
+.mm-label {
+  font-size: 11px; font-weight: 700; color: var(--gray-500);
+  text-transform: uppercase; letter-spacing: 1.6px; margin: 22px 0 6px;
+}
+.mm-label:first-child { margin-top: 6px; }
+.mm-link {
+  display: block; padding: 13px 2px; font-size: 16px; font-weight: 600;
+  color: var(--blue-deep); text-decoration: none; cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.mm-link:active { color: var(--accent); }
+.mm-bottom { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+/* ══════════════════════════════════════
+   SHARED
+══════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5vw; }
+.section-label {
+  font-size: 12px; font-weight: 600; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px;
+}
+.section-title { font-size: clamp(26px, 3.2vw, 44px); color: var(--blue-deep); margin-bottom: 18px; }
+.section-sub { font-size: 16px; color: var(--text-sub); max-width: 560px; line-height: 1.7; }
+
+.btn-primary {
+  background: var(--accent); color: white;
+  padding: 13px 26px; border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 15px;
+  text-decoration: none; border: none; cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0,102,255,0.32);
+  transition: all .25s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,102,255,0.42); background: #0052CC; }
+.btn-secondary {
+  background: white; color: var(--accent);
+  border: 2px solid rgba(0,102,255,0.22);
+  padding: 11px 24px; border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 15px;
+  text-decoration: none; cursor: pointer;
+  transition: all .25s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-secondary:hover { border-color: var(--accent); background: var(--blue-pale); transform: translateY(-2px); }
+
+/* Fade animations */
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════ */
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  padding: calc(var(--nav-h) + 60px) 5vw 80px;
+  background: linear-gradient(155deg, #fff 0%, var(--blue-pale) 50%, #d6e8ff 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; right: -150px;
+  width: 650px; height: 650px;
+  background: radial-gradient(circle, rgba(0,102,255,0.11) 0%, transparent 68%);
+  border-radius: 50%;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: center; position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,102,255,0.07); border: 1px solid rgba(0,102,255,0.18);
+  border-radius: 100px; padding: 6px 16px;
+  font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 26px;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--accent);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+.hero h1 { font-size: clamp(36px, 4.5vw, 60px); color: var(--blue-deep); margin-bottom: 22px; }
+.hero h1 span { color: var(--accent); }
+.hero-sub { font-size: 17px; color: var(--text-sub); margin-bottom: 38px; max-width: 480px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 36px; margin-top: 52px; padding-top: 36px; border-top: 1px solid rgba(0,102,255,0.1); }
+.hero-stat-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 30px; font-weight: 800; color: var(--blue-deep); }
+.hero-stat-num span { color: var(--accent); }
+.hero-stat-label { font-size: 12px; color: var(--text-sub); font-weight: 500; }
+
+/* Hero Card */
+.hero-visual { position: relative; }
+.hero-card {
+  background: white; border-radius: 22px;
+  padding: 30px; box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(0,102,255,0.07); position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--blue-light));
+}
+.hc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+.hc-title { font-size: 12px; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: .8px; }
+.hc-badge { background: #E6F7EE; color: #1D8348; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; }
+.hc-amount { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: var(--blue-deep); margin-bottom: 4px; }
+.hc-sub { font-size: 12px; color: var(--text-sub); margin-bottom: 24px; }
+.hc-bar-wrap { margin-bottom: 14px; }
+.hc-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-sub); margin-bottom: 5px; }
+.hc-bar { height: 7px; background: var(--gray-100); border-radius: 100px; overflow: hidden; }
+.hc-bar-fill { height: 100%; border-radius: 100px; }
+.hc-tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.hc-tag { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+
+.hero-chip {
+  position: absolute; background: white; border-radius: 14px;
+  padding: 11px 16px; box-shadow: var(--shadow-md);
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(0,102,255,0.08);
+  animation: float 4s ease-in-out infinite;
+}
+.hero-chip-1 { top: -18px; right: -22px; animation-delay: 0s; }
+.hero-chip-2 { bottom: 18px; left: -26px; animation-delay: 1.8s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.chip-icon { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.chip-label { font-size: 10px; color: var(--text-sub); margin-bottom: 1px; }
+.chip-val { font-size: 13px; font-weight: 600; color: var(--blue-deep); }
+
+/* Trusted logos strip */
+.trust-bar {
+  background: var(--blue-deep); padding: 44px 5vw;
+}
+.trust-bar-inner { max-width: 1200px; margin: 0 auto; }
+.trust-label { text-align: center; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 28px; }
+.trust-logos { display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.logo-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; border-radius: 12px; padding: 0 22px; height: 88px; box-sizing: border-box;
+  box-shadow: 0 6px 20px rgba(0,0,0,.16);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.logo-badge:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,.22); }
+.logo-badge img { max-height: 28px; max-width: 116px; width: auto; height: auto; object-fit: contain; display: block; }
+.logo-badge img.logo-square { max-height: 70px; max-width: 200px; }
+
+/* Products overview */
+.products-section { padding: 100px 5vw; background: var(--gray-50); }
+.products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+.product-card {
+  background: white; border-radius: var(--radius);
+  padding: 34px; border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm); transition: all .3s;
+  cursor: pointer; position: relative; overflow: hidden;
+  text-decoration: none; display: block;
+}
+.product-card::after {
+  content: ''; position: absolute; inset: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(0,102,255,.04) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(0,102,255,.15); }
+.product-card:hover::after { opacity: 1; }
+.pc-stripe {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--blue-light));
+  transform: scaleX(0); transform-origin: left; transition: transform .4s;
+}
+.product-card:hover .pc-stripe { transform: scaleX(1); }
+.pc-icon { width: 54px; height: 54px; border-radius: 13px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 22px; transition: background .3s; }
+.product-card:hover .pc-icon { background: rgba(0,102,255,.14); }
+.pc-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 700; color: var(--blue-deep); margin-bottom: 10px; }
+.pc-desc { font-size: 14px; color: var(--text-sub); margin-bottom: 22px; line-height: 1.65; }
+.pc-link { font-size: 13px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 5px; transition: gap .2s; }
+.pc-link:hover { gap: 9px; }
+
+/* Sectors */
+.sectors-section { padding: 100px 5vw; }
+.sectors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
+.sector-card { background: white; border-radius: var(--radius); padding: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); transition: all .3s; cursor: pointer; }
+.sector-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(0,102,255,.2); }
+.sc-icon { font-size: 30px; margin-bottom: 14px; }
+.sc-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17px; font-weight: 700; color: var(--blue-deep); margin-bottom: 8px; }
+.sc-desc { font-size: 14px; color: var(--text-sub); line-height: 1.6; }
+
+/* How it works */
+.how-section {
+  padding: 100px 5vw;
+  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+}
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 40px; margin-top: 60px; position: relative; }
+.steps::before {
+  content: ''; position: absolute; top: 36px; left: 10%; right: 10%;
+  height: 2px; background: linear-gradient(90deg, var(--accent), var(--blue-light)); z-index: 0;
+}
+.step { text-align: center; position: relative; z-index: 1; }
+.step-num {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: white; border: 3px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent);
+  margin: 0 auto 18px;
+  box-shadow: 0 4px 20px rgba(0,102,255,.18);
+}
+.step-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--blue-deep); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-sub); }
+
+/* References */
+.refs-section { padding: 100px 5vw; background: var(--gray-50); }
+.refs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 56px; }
+.ref-card { background: white; border-radius: var(--radius); padding: 26px 22px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); transition: all .3s; }
+.ref-card:hover { border-color: rgba(0,102,255,.22); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.ref-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.ref-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--blue-deep); }
+.ref-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: var(--blue-pale); color: var(--accent); }
+.ref-desc { font-size: 13px; color: var(--text-sub); line-height: 1.65; }
+.ref-logo { display: flex; align-items: center; height: 75px; }
+.ref-logo img { max-height: 30px; max-width: 140px; width: auto; height: auto; object-fit: contain; display: block; }
+.ref-logo img.logo-square { max-height: 75px; max-width: 220px; }
+
+/* FAQ */
+.faq-section { padding: 100px 5vw; }
+.faq-list { max-width: 780px; margin: 50px auto 0; display: flex; flex-direction: column; gap: 14px; }
+.faq-item { background: white; border-radius: var(--radius); border: 1px solid var(--gray-100); overflow: hidden; box-shadow: var(--shadow-sm); }
+.faq-q { padding: 20px 26px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--blue-deep); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background .2s; }
+.faq-q:hover { background: var(--blue-pale); }
+.faq-chevron { font-size: 16px; color: var(--accent); transition: transform .3s; }
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; font-size: 14px; color: var(--text-sub); line-height: 1.7; padding: 0 26px; }
+.faq-item.open .faq-a { max-height: 200px; padding: 0 26px 20px; }
+
+/* Contact section on home */
+.contact-section { background: var(--blue-deep); padding: 100px 5vw; position: relative; overflow: hidden; }
+.contact-section::before {
+  content: ''; position: absolute; top: -200px; right: -150px;
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(0,102,255,.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
+.contact-left h2 { font-size: clamp(26px, 3vw, 40px); color: white; margin-bottom: 16px; }
+.contact-left p { font-size: 15px; color: rgba(255,255,255,.6); margin-bottom: 34px; }
+.ci-list { display: flex; flex-direction: column; gap: 16px; }
+.ci-item { display: flex; align-items: center; gap: 14px; }
+.ci-icon { width: 42px; height: 42px; background: rgba(255,255,255,.09); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.ci-label { font-size: 11px; color: rgba(255,255,255,.45); font-weight: 500; margin-bottom: 2px; }
+.ci-value { font-size: 14px; color: white; font-weight: 500; }
+.contact-form-box { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 34px; backdrop-filter: blur(10px); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 5px; }
+.form-field label { font-size: 12px; font-weight: 500; }
+.form-field input, .form-field textarea, .form-field select {
+  border-radius: 10px; padding: 11px 14px;
+  font-size: 14px; font-family: 'Inter', sans-serif;
+  transition: border-color .2s, background .2s; resize: none; outline: none;
+}
+.contact-form-box .form-field label { color: rgba(255,255,255,.55); }
+.contact-form-box .form-field input, .contact-form-box .form-field textarea {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.13);
+  color: white;
+}
+.contact-form-box .form-field input::placeholder, .contact-form-box .form-field textarea::placeholder { color: rgba(255,255,255,.28); }
+.contact-form-box .form-field input:focus, .contact-form-box .form-field textarea:focus { border-color: var(--blue-light); background: rgba(255,255,255,.12); }
+.contact-form-card .form-field label { color: var(--text-sub); }
+.contact-form-card .form-field input, .contact-form-card .form-field textarea, .contact-form-card .form-field select {
+  background: var(--gray-50); border: 1px solid var(--gray-100); color: var(--text-main);
+}
+.contact-form-card .form-field input::placeholder, .contact-form-card .form-field textarea::placeholder { color: var(--text-sub); opacity: .6; }
+.contact-form-card .form-field input:focus, .contact-form-card .form-field textarea:focus, .contact-form-card .form-field select:focus { border-color: var(--blue-light); background: white; }
+.form-submit { width: 100%; padding: 13px; background: var(--accent); border: none; border-radius: 12px; color: white; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; transition: all .25s; margin-top: 6px; box-shadow: 0 4px 18px rgba(0,102,255,.38); }
+.form-submit:hover { background: #0052CC; transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   PRODUCT PAGE TEMPLATE
+══════════════════════════════════════ */
+.product-page { padding-top: var(--nav-h); }
+
+.product-hero {
+  padding: 72px 5vw 60px;
+  background: linear-gradient(150deg, #fff 0%, var(--blue-pale) 100%);
+  position: relative; overflow: hidden;
+}
+.product-hero::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,102,255,.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.product-hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+
+.product-hero-breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.breadcrumb-link { font-size: 13px; color: var(--text-sub); cursor: pointer; transition: color .2s; text-decoration: none; }
+.breadcrumb-link:hover { color: var(--accent); }
+.breadcrumb-sep { font-size: 13px; color: var(--gray-300); }
+.breadcrumb-current { font-size: 13px; font-weight: 600; color: var(--accent); }
+
+.product-hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,102,255,.08); border: 1px solid rgba(0,102,255,.18);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 600; color: var(--accent); margin-bottom: 18px;
+}
+.product-hero h1 { font-size: clamp(30px, 3.5vw, 48px); color: var(--blue-deep); margin-bottom: 10px; }
+.product-hero-sub { font-size: 20px; color: var(--blue-mid); font-weight: 500; margin-bottom: 18px; font-style: italic; }
+.product-hero-desc { font-size: 16px; color: var(--text-sub); line-height: 1.75; margin-bottom: 32px; }
+.product-hero-actions { display: flex; gap: 14px; }
+
+/* Product visual panel */
+.product-panel {
+  background: white; border-radius: 22px;
+  padding: 30px; box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(0,102,255,.08); position: relative;
+}
+.product-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(90deg, var(--accent), var(--blue-light));
+}
+.panel-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; color: var(--blue-deep); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+.panel-list { display: flex; flex-direction: column; gap: 10px; }
+.panel-list-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--gray-50); border-radius: 10px; border: 1px solid var(--gray-100); }
+.panel-list-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.panel-list-text { font-size: 13px; color: var(--blue-deep); font-weight: 500; }
+
+/* Product content sections */
+.product-content { padding: 0 5vw 80px; max-width: 1200px; margin: 0 auto; }
+
+.product-section { padding: 60px 0; border-top: 1px solid var(--gray-100); }
+.product-section:first-child { border-top: none; padding-top: 50px; }
+
+.ps-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--blue-deep); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+.ps-title::before { content: ''; display: inline-block; width: 4px; height: 22px; background: var(--accent); border-radius: 2px; }
+
+/* Module grid */
+.module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.module-card { background: white; border-radius: 14px; padding: 22px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); transition: all .25s; }
+.module-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(0,102,255,.18); }
+.module-icon { font-size: 24px; margin-bottom: 12px; }
+.module-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--blue-deep); margin-bottom: 8px; }
+.module-items { list-style: none; }
+.module-items li { font-size: 13px; color: var(--text-sub); padding: 4px 0; padding-left: 16px; position: relative; line-height: 1.5; }
+.module-items li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* Audience & Benefits */
+.ab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ab-card { background: white; border-radius: 16px; padding: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); }
+.ab-card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--blue-deep); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.check-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text-sub); line-height: 1.55; }
+.check-list li::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* Comparison table */
+.comp-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
+.comp-table thead tr { background: var(--blue-deep); }
+.comp-table th { padding: 14px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; color: white; text-align: left; }
+.comp-table th:nth-child(2) { background: var(--accent); }
+.comp-table tbody tr:nth-child(even) { background: var(--gray-50); }
+.comp-table td { padding: 13px 20px; font-size: 13px; color: var(--text-sub); border-bottom: 1px solid var(--gray-100); }
+.comp-table td:first-child { font-weight: 500; color: var(--blue-deep); }
+.comp-table td .yes { color: #1D8348; font-weight: 700; }
+.comp-table td .no { color: var(--gray-300); }
+
+/* Effort cards */
+.effort-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.effort-card { background: white; border-radius: 14px; padding: 22px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); text-align: center; }
+.effort-pct { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 34px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+.effort-label { font-size: 12px; color: var(--text-sub); }
+
+/* Problem cards */
+.problem-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.problem-card { background: #FFF5F5; border-radius: 14px; padding: 20px; border: 1px solid #FFE4E4; display: flex; align-items: flex-start; gap: 12px; }
+.problem-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.problem-text { font-size: 13px; color: var(--gray-700); line-height: 1.6; }
+
+/* Architecture layers */
+.arch-layers { display: flex; flex-direction: column; gap: 10px; }
+.arch-layer { border-radius: 12px; padding: 16px 20px; }
+.arch-layer-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.arch-layer-items { display: flex; flex-wrap: wrap; gap: 8px; }
+.arch-chip { font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 100px; }
+
+/* CTA Strip */
+.cta-strip { background: var(--blue-deep); border-radius: 20px; padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 60px; position: relative; overflow: hidden; }
+.cta-strip::before { content: ''; position: absolute; top: -80px; right: -80px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(0,102,255,.3) 0%, transparent 70%); border-radius: 50%; }
+.cta-strip-text { position: relative; z-index: 1; }
+.cta-strip-text h3 { font-size: 22px; color: white; margin-bottom: 6px; }
+.cta-strip-text p { font-size: 14px; color: rgba(255,255,255,.6); }
+.cta-strip-btn { position: relative; z-index: 1; background: white; color: var(--accent); padding: 13px 28px; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; transition: all .2s; border: none; }
+.cta-strip-btn:hover { background: var(--blue-pale); transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   SOLUTION PAGE TEMPLATE
+══════════════════════════════════════ */
+.solution-page { padding-top: var(--nav-h); }
+.solution-hero {
+  padding: 72px 5vw 60px;
+  background: linear-gradient(150deg, #fff 0%, var(--blue-pale) 100%);
+  position: relative; overflow: hidden;
+}
+.solution-hero-inner { max-width: 1200px; margin: 0 auto; }
+.solution-features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 50px; }
+.sf-card { background: white; border-radius: 14px; padding: 22px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); transition: all .25s; }
+.sf-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(0,102,255,.18); }
+.sf-icon { font-size: 22px; margin-bottom: 10px; }
+.sf-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--blue-deep); margin-bottom: 6px; }
+.sf-desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
+
+.usage-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
+.usage-chip { background: var(--blue-pale); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--blue-deep); }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer { background: #060E1A; color: rgba(255,255,255,.72); padding: 60px 5vw 28px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px; margin-bottom: 52px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; cursor: pointer; text-decoration: none; }
+.footer-logo-mark { display: none; }
+.footer-logo-text { font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 18px; color: white; }
+.footer-brand-text { font-size: 13px; line-height: 1.75; max-width: 260px; }
+.footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700; color: white; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+.footer-col a { display: block; color: rgba(255,255,255,.68); text-decoration: none; font-size: 13px; margin-bottom: 9px; cursor: pointer; transition: color .2s; }
+.footer-col a:hover { color: var(--blue-light); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px; font-size: 12px; flex-wrap: wrap; gap: 12px; }
+.footer-bottom a { color: rgba(255,255,255,.55); text-decoration: none; }
+.footer-bottom a:hover { color: rgba(255,255,255,.65); }
+
+
+/* Nav dropdown triggers — dikine ortalama */
+span.nav-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 40px; padding: 0 14px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--gray-700);
+  cursor: pointer; transition: color .2s, background .2s;
+  white-space: nowrap; border: none; background: none;
+  font-family: 'Inter', sans-serif;
+}
+span.nav-link:hover { color: var(--accent); background: var(--blue-pale); }
+a.nav-link { display: inline-flex !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--gray-50); }
+::-webkit-scrollbar-thumb { background: var(--blue-light); border-radius: 3px; }
+
+/* Contact & About page layout grids (kept inline-style-free so media queries can collapse them) */
+.contact-layout-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; align-items: start; }
+.about-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; margin-bottom: 80px; }
+.about-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.about-vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 80px; }
+.about-values-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .hero-inner, .product-hero-inner, .contact-grid, .contact-layout-grid, .about-story-grid, .about-vm-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .products-grid, .sectors-grid, .refs-grid, .module-grid, .solution-features-grid { grid-template-columns: 1fr; }
+  .ab-grid, .effort-grid, .problem-grid, .usage-grid { grid-template-columns: 1fr 1fr; }
+  .about-values-grid { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .steps::before { display: none; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-menu { display: none; }
+  .nav-right > .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+  .cta-strip { flex-direction: column; align-items: flex-start; }
+  .comp-table { font-size: 12px; }
+  .comp-table th, .comp-table td { padding: 10px 12px; }
+}
+
+/* Narrow phones */
+@media (max-width: 600px) {
+  .hero-stats { flex-wrap: wrap; gap: 22px 32px; }
+  .ab-grid, .effort-grid, .problem-grid, .usage-grid, .steps { grid-template-columns: 1fr; }
+  .about-stats-grid, .about-values-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 30px; }
+  .nav-logo svg { height: 42px; }
+  .nav-lang .lang-btn { padding: 4px 7px; font-size: 11px; }
+  .section-title { font-size: clamp(22px, 6vw, 32px); }
+  .hero h1, .product-hero h1 { font-size: clamp(28px, 8vw, 38px); }
+  .trust-logos { gap: 10px; }
+  .logo-badge { height: 44px; padding: 0 16px; }
+  .logo-badge img { max-height: 22px; max-width: 92px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAVIGATION ══════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="showPage('home')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297.01 100" style="display:block;height:52px;width:auto;">
+<g transform="translate(2,18.5) scale(0.63)"><polygon points="50.00,3.50 90.27,26.75 90.27,73.25 50.00,96.50 9.73,73.25 9.73,26.75" fill="none" stroke="#0A2540" stroke-width="2.4" stroke-linejoin="round"/><polygon points="50.00,9.50 85.07,29.75 85.07,70.25 50.00,90.50 14.93,70.25 14.93,29.75" fill="none" stroke="#0066FF" stroke-width="1" opacity="0.7" stroke-linejoin="round"/><g transform="translate(50,50) scale(0.62) translate(-50,-50)"><g fill="none" stroke="#0A2540" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="7" r="1.5" fill="#0066FF" stroke="none"/><line x1="50" y1="9" x2="50" y2="12.5"/><path d="M43,20 Q50,10 57,20"/><line x1="42.5" y1="20" x2="57.5" y2="20"/><rect x="43" y="23.5" width="14" height="18.5" rx="1.2"/><circle cx="50" cy="32.7" r="4.6" stroke="#0066FF"/><line x1="50" y1="32.7" x2="50" y2="29" stroke="#0066FF"/><line x1="50" y1="32.7" x2="52.6" y2="33.9" stroke="#0066FF"/><polygon points="44,42 56,42 60,79 40,79"/><line x1="42.6" y1="55" x2="57.4" y2="55"/><line x1="41.4" y1="67" x2="58.6" y2="67"/><rect x="36" y="79" width="28" height="5"/><rect x="31.5" y="84" width="37" height="6" rx="1.2"/></g></g></g>
+<text x="79" y="58.6" font-family="Manrope, sans-serif" font-size="56" letter-spacing="0" textLength="210.01" lengthAdjust="spacing"><tspan fill="#0066FF" font-weight="800">Simi</tspan><tspan fill="#0A2540" font-weight="600">rna</tspan></text>
+<text x="79" y="81.7" font-family="JetBrains Mono, monospace" font-weight="500" font-size="14" textLength="210.01" lengthAdjust="spacing" fill="#5A6B7B">TECHNOLOGY</text>
+</svg>
+    </a>
+
+    <div class="nav-menu">
+
+      <!-- Çözümler dropdown -->
+      <div class="nav-item">
+        <span class="nav-link" data-tr="Çözümler" data-en="Solutions">Çözümler
+          <svg class="nav-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-dropdown wide">
+          <div class="dd-item" onclick="showPage('kampuskart')">
+            <div class="dd-icon">🎓</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Kampüs Kart" data-en="Campus Card">Kampüs Kart</div>
+              <div class="dd-desc" data-tr="Üniversiteler ve kampüsler için kapalı devre ödeme" data-en="Closed-loop payment for universities and campuses">Üniversiteler ve kampüsler için kapalı devre ödeme</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('yemekkarti')">
+            <div class="dd-icon">🍽️</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Yemek Kartı" data-en="Meal Card">Yemek Kartı</div>
+              <div class="dd-desc" data-tr="Yemek kartı şirketleri için uçtan uca altyapı" data-en="End-to-end infrastructure for meal card companies">Yemek kartı şirketleri için uçtan uca altyapı</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('sadakatkart')">
+            <div class="dd-icon">⭐</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Sadakat Kartı" data-en="Loyalty Card">Sadakat Kartı</div>
+              <div class="dd-desc" data-tr="Sadakat programı ve ödeme entegrasyonu" data-en="Loyalty program and payment integration">Sadakat programı ve ödeme entegrasyonu</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('hedijekarti')">
+            <div class="dd-icon">🎁</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Hediye Kartı" data-en="Gift Card">Hediye Kartı</div>
+              <div class="dd-desc" data-tr="Markanıza özel fiziksel & dijital hediye kartı programı" data-en="Branded physical & digital gift card program">Markanıza özel fiziksel & dijital hediye kartı programı</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ürünler dropdown -->
+      <div class="nav-item">
+        <span class="nav-link" data-tr="Ürünler" data-en="Products">Ürünler
+          <svg class="nav-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-dropdown">
+          <div class="dd-item" onclick="showPage('simipayment')">
+            <div class="dd-icon">💳</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="simiPayment" data-en="simiPayment">simiPayment</div>
+              <div class="dd-desc" data-tr="Uçtan uca kapalı devre ödeme çözümü" data-en="End-to-end closed-loop payment solution">Uçtan uca kapalı devre ödeme çözümü</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('simipos')">
+            <div class="dd-icon">🖥️</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="simiPOS" data-en="simiPOS">simiPOS</div>
+              <div class="dd-desc" data-tr="POS ve ÖKC uygulama geliştirme framework'ü" data-en="POS & ÖKC application development framework">POS ve ÖKC uygulama geliştirme framework'ü</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('simicard')">
+            <div class="dd-icon">🪪</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="simiCard" data-en="simiCard">simiCard</div>
+              <div class="dd-desc" data-tr="Çip personalizasyon ve kart üretim uygulaması" data-en="Chip personalization and card production">Çip personalizasyon ve kart üretim uygulaması</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kurumsal dropdown -->
+      <div class="nav-item">
+        <span class="nav-link" data-tr="Kurumsal" data-en="Corporate">Kurumsal
+          <svg class="nav-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-dropdown">
+          <div class="dd-item" onclick="showPage('hakkimizda')">
+            <div class="dd-icon">🏛️</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</div>
+              <div class="dd-desc" data-tr="20+ yıllık deneyim ve vizyonumuz" data-en="20+ years of experience and our vision">20+ yıllık deneyim ve vizyonumuz</div>
+            </div>
+          </div>
+          <div class="dd-item" onclick="showPage('referanslar')">
+            <div class="dd-icon">🤝</div>
+            <div class="dd-text">
+              <div class="dd-name" data-tr="Referanslar" data-en="References">Referanslar</div>
+              <div class="dd-desc" data-tr="Başarılı proje ve iş ortaklarımız" data-en="Successful projects and business partners">Başarılı proje ve iş ortaklarımız</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="nav-link" onclick="showPage('contact')" data-tr="İletişim" data-en="Contact">İletişim</a>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-lang">
+        <span class="active lang-btn" data-lang="tr" onclick="setLang('tr')" id="btn-tr">TR</span>
+        <span class="lang-btn" data-lang="en" onclick="setLang('en')" id="btn-en">EN</span>
+      </div>
+      <a class="nav-cta" onclick="showPage('contact')" data-tr="Bize Ulaşın" data-en="Contact Us">Bize Ulaşın</a>
+      <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Menü" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu panel -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <p class="mm-label" data-tr="Çözümler" data-en="Solutions">Çözümler</p>
+    <a class="mm-link" onclick="showPage('kampuskart')" data-tr="Kampüs Kart" data-en="Campus Card">Kampüs Kart</a>
+    <a class="mm-link" onclick="showPage('yemekkarti')" data-tr="Yemek Kartı" data-en="Meal Card">Yemek Kartı</a>
+    <a class="mm-link" onclick="showPage('sadakatkart')" data-tr="Sadakat Kartı" data-en="Loyalty Card">Sadakat Kartı</a>
+    <a class="mm-link" onclick="showPage('hedijekarti')" data-tr="Hediye Kartı" data-en="Gift Card">Hediye Kartı</a>
+
+    <p class="mm-label" data-tr="Ürünler" data-en="Products">Ürünler</p>
+    <a class="mm-link" onclick="showPage('simipayment')" data-tr="simiPayment" data-en="simiPayment">simiPayment</a>
+    <a class="mm-link" onclick="showPage('simipos')" data-tr="simiPOS" data-en="simiPOS">simiPOS</a>
+    <a class="mm-link" onclick="showPage('simicard')" data-tr="simiCard" data-en="simiCard">simiCard</a>
+
+    <p class="mm-label" data-tr="Kurumsal" data-en="Corporate">Kurumsal</p>
+    <a class="mm-link" onclick="showPage('hakkimizda')" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</a>
+    <a class="mm-link" onclick="showPage('referanslar')" data-tr="Referanslar" data-en="References">Referanslar</a>
+    <a class="mm-link" onclick="showPage('contact')" data-tr="İletişim" data-en="Contact">İletişim</a>
+
+    <div class="mm-bottom">
+      <div class="nav-lang">
+        <span class="active lang-btn" data-lang="tr" onclick="setLang('tr')">TR</span>
+        <span class="lang-btn" data-lang="en" onclick="setLang('en')">EN</span>
+      </div>
+      <a class="nav-cta" onclick="showPage('contact')" data-tr="Bize Ulaşın" data-en="Contact Us">Bize Ulaşın</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="fade-up">
+        <div class="hero-badge" data-tr="20+ Yıllık Deneyim" data-en="20+ Years of Experience">20+ Yıllık Deneyim</div>
+        <h1 data-tr="Geleceğin<br><span>Ödeme Çözümleri</span><br>Teknolojileri" data-en="The Future of<br><span>Payment Solutions</span><br>Technology">Geleceğin<br><span>Ödeme Çözümleri</span><br>Teknolojileri</h1>
+        <p class="hero-sub" data-tr="Uçtan uca kapalı devre ödeme sistemleri, POS uygulama geliştirme ve kart üretiminde Türkiye'nin güvenilir teknoloji ortağı." data-en="Turkey's trusted technology partner in end-to-end closed-loop payment systems, POS application development and card production.">Uçtan uca kapalı devre ödeme sistemleri, POS uygulama geliştirme ve kart üretiminde Türkiye'nin güvenilir teknoloji ortağı.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('simipayment')" data-tr="Ürünleri Keşfet →" data-en="Explore Products →">Ürünleri Keşfet →</button>
+          <button class="btn-secondary" onclick="showPage('contact')" data-tr="Demo Talep Et" data-en="Request a Demo">Demo Talep Et</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">20<span>+</span></div>
+            <div class="hero-stat-label">Yıllık Deneyim</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">150<span>+</span></div>
+            <div class="hero-stat-label">Başarılı Proje</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">50<span>+</span></div>
+            <div class="hero-stat-label">Kurumsal Müşteri</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual fade-up" style="transition-delay:.2s">
+        <img
+          src="images/hero.jpg"
+          alt="Simirna Ödeme Teknolojileri"
+          style="width:100%;border-radius:20px;box-shadow:0 24px 80px rgba(10,37,64,0.18);display:block;"
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <div class="trust-bar">
+    <div class="trust-bar-inner">
+      <p class="trust-label" data-tr="Güvenilir İş Ortaklarımız" data-en="Our Trusted Partners">Güvenilir İş Ortaklarımız</p>
+      <div class="trust-logos">
+        <span class="logo-badge"><img src="images/referanslar/tokenflex-logo.png" alt="TokenFlex" loading="lazy"></span>
+        <span class="logo-badge"><img class="logo-square" src="images/referanslar/iwallet-logo.png" alt="iWallet" loading="lazy"></span>
+        <span class="logo-badge"><img class="logo-square" src="images/referanslar/multinetup-logo.png" alt="Multinet Up" loading="lazy"></span>
+        <span class="logo-badge"><img class="logo-square" src="images/referanslar/paygo-logo.png" alt="PayGo" loading="lazy"></span>
+        <span class="logo-badge"><img src="images/referanslar/propay-logo.png" alt="Propay" loading="lazy"></span>
+        <span class="logo-badge"><img class="logo-square" src="images/referanslar/sodexo-logo.png" alt="Sodexo" loading="lazy"></span>
+        <span class="logo-badge"><img class="logo-square" src="images/referanslar/verifone-logo.png" alt="Verifone" loading="lazy"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <section class="products-section">
+    <div class="container">
+      <div class="fade-up">
+        <p class="section-label" data-tr="Ürünlerimiz" data-en="Our Products">Ürünlerimiz</p>
+        <h2 class="section-title" data-tr="Uçtan Uca Ödeme<br>Teknoloji Platformu" data-en="End-to-End Payment<br>Technology Platform">Uçtan Uca Ödeme<br>Teknoloji Platformu</h2>
+        <p class="section-sub">Kapalı devre ödeme çözümlerinden POS uygulama framework'üne, kart üretiminden entegrasyon danışmanlığına eksiksiz ekosistem.</p>
+      </div>
+      <div class="products-grid">
+        <div class="product-card fade-up" onclick="showPage('simipayment')">
+          <div class="pc-stripe"></div>
+          <div class="pc-icon">💳</div>
+          <div class="pc-name">simiPayment</div>
+          <p class="pc-desc">Kart üretiminden ödeme çözümüne uzanan, tamamen entegre uçtan uca kapalı devre ödeme sistemi. Kendi marka kartınızı oluşturun, üye iş yerlerinizi yönetin.</p>
+          <div class="pc-link">Detayları İncele <span>→</span></div>
+        </div>
+        <div class="product-card fade-up" style="transition-delay:.1s" onclick="showPage('simipos')">
+          <div class="pc-stripe"></div>
+          <div class="pc-icon">🖥️</div>
+          <div class="pc-name">simiPOS</div>
+          <p class="pc-desc">POS ve ÖKC POS uygulama geliştirme framework'ü. Farklı marka cihazlarda tek kod tabanıyla geliştirme, %30–50 efor tasarrufu.</p>
+          <div class="pc-link">Detayları İncele <span>→</span></div>
+        </div>
+        <div class="product-card fade-up" style="transition-delay:.2s" onclick="showPage('simicard')">
+          <div class="pc-stripe"></div>
+          <div class="pc-icon">🪪</div>
+          <div class="pc-name">simiCard</div>
+          <p class="pc-desc">Çip personalizasyonu ve kart üretim uygulaması. ISO standartlarına uygun, güvenli ve ölçeklenebilir kart yaşam döngüsü yönetimi.</p>
+          <div class="pc-link">Detayları İncele <span>→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sectors -->
+  <section class="sectors-section">
+    <div class="container">
+      <div class="fade-up">
+        <p class="section-label" data-tr="Sektörel Çözümler" data-en="Sector Solutions">Sektörel Çözümler</p>
+        <h2 class="section-title" data-tr="Her Sektöre Özel<br>Ödeme Altyapısı" data-en="Payment Infrastructure<br>Tailored for Every Sector">Her Sektöre Özel<br>Ödeme Altyapısı</h2>
+        <p class="section-sub">Farklı sektörlerin ihtiyaçlarına özel tasarlanmış, esnek ve özelleştirilebilir ödeme çözümleri.</p>
+      </div>
+      <div class="sectors-grid">
+        <div class="sector-card fade-up" onclick="showPage('kampuskart')">
+          <div class="sc-icon">🎓</div>
+          <div class="sc-name">Kampüs Kart</div>
+          <p class="sc-desc">Üniversiteler ve kampüsler için özel kapalı devre ödeme çözümü. Yemekhane, kütüphane ve spor tesisi entegrasyonu.</p>
+        </div>
+        <div class="sector-card fade-up" style="transition-delay:.1s" onclick="showPage('yemekkarti')">
+          <div class="sc-icon">🍽️</div>
+          <div class="sc-name">Yemek Kartı</div>
+          <p class="sc-desc">Yemek kartı şirketleri için uçtan uca ödeme altyapısı. Hızlı onboarding ve gerçek zamanlı bakiye yönetimi.</p>
+        </div>
+        <div class="sector-card fade-up" style="transition-delay:.2s" onclick="showPage('sadakatkart')">
+          <div class="sc-icon">⭐</div>
+          <div class="sc-name">Sadakat Kartı</div>
+          <p class="sc-desc">Sadakat programları ile ödeme entegrasyonu. Puan kazanma, harcama ve kampanya yönetimini tek platformda birleştirin.</p>
+        </div>
+        <div class="sector-card fade-up" style="transition-delay:.3s" onclick="showPage('hedijekarti')">
+          <div class="sc-icon">🎁</div>
+          <div class="sc-name">Hediye Kartı</div>
+          <p class="sc-desc">Markanıza özel fiziksel ve dijital hediye kartı programı. Kasadan, POS'tan veya mobil uygulamadan kolay kullanım.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-section">
+    <div class="container">
+      <div class="fade-up" style="text-align:center;max-width:540px;margin:0 auto">
+        <p class="section-label" data-tr="Nasıl Çalışır?" data-en="How It Works?">Nasıl Çalışır?</p>
+        <h2 class="section-title" data-tr="4 Adımda Entegrasyon" data-en="Integration in 4 Steps">4 Adımda Entegrasyon</h2>
+      </div>
+      <div class="steps">
+        <div class="step fade-up">
+          <div class="step-num">01</div>
+          <div class="step-title">İhtiyaç Analizi</div>
+          <p class="step-desc">Sektörünüze ve iş modelinize özgü ödeme ihtiyaçlarınızı analiz ediyoruz.</p>
+        </div>
+        <div class="step fade-up" style="transition-delay:.1s">
+          <div class="step-num">02</div>
+          <div class="step-title">Çözüm Tasarımı</div>
+          <p class="step-desc">Özelleştirilmiş ödeme mimarisini ve entegrasyon planını hazırlıyoruz.</p>
+        </div>
+        <div class="step fade-up" style="transition-delay:.2s">
+          <div class="step-num">03</div>
+          <div class="step-title">Hızlı Kurulum</div>
+          <p class="step-desc">Uzman ekibimizle sistemleri minimal kesinti süresiyle devreye alıyoruz.</p>
+        </div>
+        <div class="step fade-up" style="transition-delay:.3s">
+          <div class="step-num">04</div>
+          <div class="step-title">Sürekli Destek</div>
+          <p class="step-desc">7/24 teknik destek ve düzenli güncellemelerle sisteminizi her zaman güncel tutuyoruz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- References -->
+  <section class="refs-section">
+    <div class="container">
+      <div class="fade-up">
+        <p class="section-label" data-tr="Referanslar" data-en="References">Referanslar</p>
+        <h2 class="section-title" data-tr="Güvenilir İş Ortaklarımız" data-en="Our Trusted Partners">Güvenilir İş Ortaklarımız</h2>
+        <p class="section-sub">Türkiye'nin önde gelen kurumlarıyla hayata geçirilen başarılı projeler.</p>
+      </div>
+            <div class="refs-grid">
+        <div class="ref-card fade-up">
+          <div class="ref-top">
+            <span class="ref-logo"><img src="images/referanslar/tokenflex-logo.png" alt="TokenFlex" loading="lazy"></span>
+            <span class="ref-tag" data-tr="Yemek Kartı" data-en="Meal Card">Yemek Kartı</span>
+          </div>
+          <p class="ref-desc" data-tr="simiPOS ile iki farklı ÖKC cihazında yemek kartı kabulü sağlandı. Farklı cihaz altyapılarında kesintisiz ödeme imkânı hayata geçirildi." data-en="Meal card acceptance was enabled on two different ÖKC devices via simiPOS, ensuring seamless transactions.">simiPOS ile iki farklı ÖKC cihazında yemek kartı kabulü sağlandı. Farklı cihaz altyapılarında kesintisiz ödeme imkânı hayata geçirildi.</p>
+        </div>
+        <div class="ref-card fade-up" style="transition-delay:.1s">
+          <div class="ref-top">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/iwallet-logo.png" alt="iWallet" loading="lazy"></span>
+            <span class="ref-tag" data-tr="Kart Üretim" data-en="Card Production">Kart Üretim</span>
+          </div>
+          <p class="ref-desc" data-tr="simiCard ile kart üretim, kişiselleştirme ve yaşam döngüsü yönetimi hayata geçirildi." data-en="Card production, personalization and lifecycle management were implemented with simiCard.">simiCard ile kart üretim, kişiselleştirme ve yaşam döngüsü yönetimi hayata geçirildi.</p>
+        </div>
+        <div class="ref-card fade-up" style="transition-delay:.2s">
+          <div class="ref-top">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/multinetup-logo.png" alt="Multinet Up" loading="lazy"></span>
+            <span class="ref-tag" data-tr="POS · Kart" data-en="POS · Card">POS · Kart</span>
+          </div>
+          <p class="ref-desc" data-tr="İki POS/ÖKC modelinde yemek kartı kabulü, kart üretim ve SAM kart entegrasyonu tamamlandı." data-en="Meal card acceptance on two POS/ÖKC models, card production and SAM card integration were completed.">İki POS/ÖKC modelinde yemek kartı kabulü, kart üretim ve SAM kart entegrasyonu tamamlandı.</p>
+        </div>
+        <div class="ref-card fade-up">
+          <div class="ref-top">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/paygo-logo.png" alt="PayGo" loading="lazy"></span>
+            <span class="ref-tag" data-tr="Ulaşım" data-en="Transportation">Ulaşım</span>
+          </div>
+          <p class="ref-desc" data-tr="MasterPOS güvenlik anahtarı yönetimi ve İstanbulkart POS entegrasyonları devreye alındı." data-en="MasterPOS security key management and İstanbulkart POS integrations were deployed.">MasterPOS güvenlik anahtarı yönetimi ve İstanbulkart POS entegrasyonları devreye alındı.</p>
+        </div>
+        <div class="ref-card fade-up" style="transition-delay:.1s">
+          <div class="ref-top">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/sodexo-logo.png" alt="Sodexo" loading="lazy"></span>
+            <span class="ref-tag" data-tr="Yemek Kartı" data-en="Meal Card">Yemek Kartı</span>
+          </div>
+          <p class="ref-desc" data-tr="TAB Gıda üye işyerlerinde Sodexo yemek kartı POS entegrasyonu tamamlandı." data-en="Sodexo meal card POS integration at TAB Gıda merchant locations was completed.">TAB Gıda üye işyerlerinde Sodexo yemek kartı POS entegrasyonu tamamlandı.</p>
+        </div>
+        <div class="ref-card fade-up" style="transition-delay:.2s">
+          <div class="ref-top">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/verifone-logo.png" alt="Verifone" loading="lazy"></span>
+            <span class="ref-tag" data-tr="ÖKC · POS" data-en="ÖKC · POS">ÖKC · POS</span>
+          </div>
+          <p class="ref-desc" data-tr="Verifone ekosistemi için simiPOS üzerinden çok cihazlı ÖKC ve POS entegrasyonları gerçekleştirildi." data-en="Multi-device ÖKC and POS integrations were implemented via simiPOS for the Verifone ecosystem.">Verifone ekosistemi için simiPOS üzerinden çok cihazlı ÖKC ve POS entegrasyonları gerçekleştirildi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="fade-up" style="text-align:center;max-width:580px;margin:0 auto">
+        <p class="section-label" data-tr="S.S.S" data-en="FAQ">S.S.S</p>
+        <h2 class="section-title" data-tr="Sıkça Sorulan Sorular" data-en="Frequently Asked Questions">Sıkça Sorulan Sorular</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)" data-tr="simiPayment hangi sektörlere hitap ediyor?" data-en="Which sectors does simiPayment serve?">simiPayment hangi sektörlere hitap ediyor?<span class="faq-chevron">⌄</span></div>
+          <div class="faq-a">simiPayment, perakende, gıda & içecek, sağlık, eğitim, otomotiv ve bankacılık başta olmak üzere kapalı devre ödeme sistemine ihtiyaç duyan her sektöre uyarlanabilir. Modüler yapısı sayesinde sektöre özel özelleştirme hızlıca yapılmaktadır.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)" data-tr="Kapalı devre ödeme sistemi nedir?" data-en="What is a closed-loop payment system?">Kapalı devre ödeme sistemi nedir?<span class="faq-chevron">⌄</span></div>
+          <div class="faq-a">Kapalı devre ödeme sistemi, belirli bir ağ içinde geçerli olan, yalnızca anlaşmalı noktalarda kullanılabilen ödeme altyapısıdır. Kampüs kartları, yemek kartları ve sadakat kartları bunlara örnektir. Açık kart sistemlerine kıyasla daha düşük maliyet ve tam kontrol imkânı sunar.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)" data-tr="Entegrasyon süreci ne kadar sürer?" data-en="How long does the integration process take?">Entegrasyon süreci ne kadar sürer?<span class="faq-chevron">⌄</span></div>
+          <div class="faq-a">Standart simiPOS entegrasyonu 2–4 hafta, tam kapalı devre ödeme sistemi kurulumu ise 8–16 hafta arasında tamamlanmaktadır. Detaylı proje planı ihtiyaç analizi sonrası sunulmaktadır.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)" data-tr="Teknik destek sağlıyor musunuz?" data-en="Do you provide technical support?">Teknik destek sağlıyor musunuz?<span class="faq-chevron">⌄</span></div>
+          <div class="faq-a">Evet. Tüm ürünlerimiz için 7/24 teknik destek sunmaktayız. SLA güvenceli yanıt süreleri ve proaktif sistem izleme ile sistemlerinizin kesintisiz çalışmasını sağlıyoruz.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-section" id="contact-anchor">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-left fade-up">
+          <p class="section-label" style="color:rgba(255,255,255,.45)">İletişim</p>
+          <h2 data-tr="Projenizi Birlikte<br>Hayata Geçirelim" data-en="Let's Build Your Project<br>Together">Projenizi Birlikte<br>Hayata Geçirelim</h2>
+          <p>Ödeme teknolojileri alanındaki ihtiyaçlarınızı konuşmak için formu doldurun. Uzman ekibimiz en kısa sürede size dönecektir.</p>
+          <div class="ci-list">
+            <div class="ci-item">
+              <div class="ci-icon">📍</div>
+              <div><div class="ci-label" data-tr="Adres" data-en="Address">Adres</div><div class="ci-value">Fırat Teknokent, Çaydaçıra Mah. Prof. Dr. Nuri Orhan Blv. No: 9 İç Kapı No: B05 Merkez / Elazığ</div></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-icon">📧</div>
+              <div><div class="ci-label" data-tr="E-posta" data-en="Email">E-posta</div><div class="ci-value">info@simirnatech.com</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-box fade-up" style="transition-delay:.2s">
+          <div class="form-row">
+            <div class="form-field"><label data-tr="Ad Soyad" data-en="Full Name">Ad Soyad</label><input type="text" data-placeholder-tr="Adınız Soyadınız" data-placeholder-en="Your Full Name" placeholder="Adınız Soyadınız"></div>
+            <div class="form-field"><label data-tr="E-posta" data-en="Email">E-posta</label><input type="email" data-placeholder-tr="ornek@sirket.com" data-placeholder-en="example@company.com" placeholder="ornek@sirket.com"></div>
+          </div>
+          <div class="form-field" style="margin-bottom:14px">
+            <label data-tr="Şirket" data-en="Company">Şirket</label><input type="text" data-placeholder-tr="Şirket adınız" data-placeholder-en="Your company name" placeholder="Şirket adınız">
+          </div>
+          <div class="form-field" style="margin-bottom:14px">
+            <label data-tr="Mesajınız" data-en="Your Message">Mesajınız</label>
+            <textarea rows="4" data-placeholder-tr="Proje detaylarını ve ihtiyaçlarınızı paylaşın..." data-placeholder-en="Share your project details and requirements..." placeholder="Proje detaylarını ve ihtiyaçlarınızı paylaşın..."></textarea>
+          </div>
+          <button class="form-submit" data-tr="Mesaj Gönder →" data-en="Send Message →">Mesaj Gönder →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: simiPayment
+══════════════════════════════════════ -->
+<div id="page-simipayment" class="page product-page">
+  <div class="product-hero">
+    <div class="product-hero-inner">
+      <div>
+        <div class="product-hero-breadcrumb">
+          <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-link" onclick="showPage('home')">Ürünler</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">simiPayment</span>
+        </div>
+        <div class="product-hero-tag">💳 Kapalı Devre Ödeme Çözümü</div>
+        <h1>simiPayment</h1>
+        <p class="product-hero-sub">Kart Üretiminden Ödeme Çözümüne, Uçtan Uca Kapalı Devre Ödeme Çözümü</p>
+        <p class="product-hero-desc">simiPayment, kapalı devre ödeme çözümüdür. Kendi marka kartınızı oluşturmanızı, üye iş yerlerinizi yönetmenizi ve çipli, temassız veya QR ile ödeme almanızı sağlar. Tüm ödeme altyapısını tek bir platformda birleştirir.</p>
+        <div class="product-hero-actions">
+          <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+          <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+        </div>
+      </div>
+      <div>
+        <div class="product-panel">
+          <div class="panel-title">🏗️ Öne Çıkan Modüller</div>
+          <div class="panel-list">
+            <div class="panel-list-item"><div class="panel-list-icon">🏪</div><div class="panel-list-text">Üye İş Yeri Yönetimi</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">👤</div><div class="panel-list-text">Müşteri, Sözleşme ve Kart Yönetimi</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">🏭</div><div class="panel-list-text">Kart Üretim Modülü</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">💳</div><div class="panel-list-text">Ödeme Modülü (Çipli, Temassız, QR)</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">📱</div><div class="panel-list-text">Mobil QR Kod Harcama</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">🔐</div><div class="panel-list-text">Kart Kullanıcı Yönetimi</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content" style="padding-top:0">
+
+    <!-- Kimler İçin -->
+    <div class="product-section">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Yemek kartı şirketleri</li>
+            <li>Üye iş yeri yönetmek isteyen şirketler</li>
+            <li>Kendi marka kartını oluşturmak ve ödeme almak isteyen şirketler</li>
+            <li>Sadakat uygulaması ile ödeme almak isteyenler</li>
+            <li>Alışveriş merkezleri</li>
+            <li>Restoran ve Market zincirleri</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Platform Faydaları</div>
+          <ul class="check-list">
+            <li>Uçtan uca kapalı devre ödeme altyapısı</li>
+            <li>Çipli, temassız ve QR ödeme desteği</li>
+            <li>Merkezi üye iş yeri ve kart yönetimi</li>
+            <li>Mobil uygulama entegrasyonu</li>
+            <li>Kendi marka kartı oluşturma imkânı</li>
+            <li>Kapsamlı raporlama ve analitik</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modules detail -->
+    <div class="product-section">
+      <div class="ps-title">Modül Detayları</div>
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-icon">🏪</div>
+          <div class="module-name">Üye İş Yeri Yönetimi</div>
+          <ul class="module-items">
+            <li>İş yeri kayıt ve aktivasyonu</li>
+            <li>Sözleşme ve komisyon yönetimi</li>
+            <li>Anlık işlem takibi</li>
+            <li>Toplu mutabakat raporları</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">💳</div>
+          <div class="module-name">Ödeme Modülü</div>
+          <ul class="module-items">
+            <li>Çipli kart ile POS ödemesi</li>
+            <li>Temassız ödeme (NFC)</li>
+            <li>QR kod ile ödeme</li>
+            <li>Mobil uygulama üzerinden QR ile ödeme</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">📊</div>
+          <div class="module-name">Raporlama & Analitik</div>
+          <ul class="module-items">
+            <li>Gerçek zamanlı dashboard</li>
+            <li>İşlem bazlı raporlar</li>
+            <li>Kullanıcı davranış analitiği</li>
+            <li>Özelleştirilebilir export</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>simiPayment hakkında detaylı bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+
+  </div>
+</div><!-- /page-simipayment -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: simiPOS
+══════════════════════════════════════ -->
+<div id="page-simipos" class="page product-page">
+  <div class="product-hero">
+    <div class="product-hero-inner">
+      <div>
+        <div class="product-hero-breadcrumb">
+          <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-link" onclick="showPage('home')">Ürünler</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">simiPOS</span>
+        </div>
+        <div class="product-hero-tag">🖥️ POS Uygulama Geliştirme Platformu</div>
+        <h1>simiPOS</h1>
+        <p class="product-hero-sub">POS ve ÖKC Cihazları İçin Ortak Uygulama Geliştirme Platformu</p>
+        <p class="product-hero-desc">"POS/ÖKC'ler için uygulama geliştirirken cihaz altyapısına değil, ihtiyaç duyulan iş kurallarına odaklanın. Farklı marka POS/ÖKC'ler için uygulamanızı yeniden yazmayın."</p>
+        <div class="product-hero-actions">
+          <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+          <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+        </div>
+      </div>
+      <div>
+        <div class="product-panel">
+          <div class="panel-title">⚡ Efor Tasarrufu</div>
+          <div class="effort-grid" style="margin-top:0">
+            <div class="effort-card">
+              <div class="effort-pct">%30–35</div>
+              <div class="effort-label">Yeni başlayan geliştiriciler</div>
+            </div>
+            <div class="effort-card">
+              <div class="effort-pct">%15–20</div>
+              <div class="effort-label">Uzman geliştiriciler</div>
+            </div>
+            <div class="effort-card">
+              <div class="effort-pct">%50</div>
+              <div class="effort-label">Test uzmanları</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content" style="padding-top:0">
+
+    <!-- Sektördeki Problemler -->
+    <div class="product-section">
+      <div class="ps-title">Sektördeki Problemler</div>
+      <div class="problem-grid">
+        <div class="problem-card"><div class="problem-icon">⚠️</div><div class="problem-text">Uygulamanın her marka ve model POS/ÖKC için yeniden yazılması gerekiyor.</div></div>
+        <div class="problem-card"><div class="problem-icon">⚠️</div><div class="problem-text">POS/ÖKC geliştirmelerinde bilgisayar ortamında debug işlemi yapılamıyor, bu da geliştirme süresini uzatıyor.</div></div>
+        <div class="problem-card"><div class="problem-icon">⚠️</div><div class="problem-text">POS/ÖKC uygulamaları için unit test yazılamadığından testler tamamen manuel ve kişiye bağımlı yapılıyor.</div></div>
+        <div class="problem-card"><div class="problem-icon">⚠️</div><div class="problem-text">Uygulama geliştiriciler her marka/model POS/ÖKC'nin SDK'sını ayrı ayrı öğrenmek durumunda kalıyor.</div></div>
+      </div>
+    </div>
+
+    <!-- Platform Modülleri -->
+    <div class="product-section">
+      <div class="ps-title">Platform Modülleri</div>
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-icon">💼</div>
+          <div class="module-name">İş Gereksinimi Katmanı</div>
+          <ul class="module-items">
+            <li>Kurum ihtiyaçları için uygulama kodları</li>
+            <li>İş kurallarını bir defa yaz, her cihazda çalıştır</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🧪</div>
+          <div class="module-name">Unit Test Modülü</div>
+          <ul class="module-items">
+            <li>Tüm kod parçalarının otomatik testi</li>
+            <li>Test süresini kısaltma</li>
+            <li>Hata oranını düşürme</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">📋</div>
+          <div class="module-name">Log Yönetimi</div>
+          <ul class="module-items">
+            <li>Bilgi, Uyarı, Alarm seviyelerinde mesaj takibi</li>
+            <li>Merkezi log izleme</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">📟</div>
+          <div class="module-name">Cihaz Yönetimi</div>
+          <ul class="module-items">
+            <li>Temaslı/Temassız okuyucu yönetimi</li>
+            <li>İletişim (GSM/ETH)</li>
+            <li>Yazıcı ve dosya yönetimi</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🖥️</div>
+          <div class="module-name">Konsol & Ekran Yönetimi</div>
+          <ul class="module-items">
+            <li>Kullanıcı arayüz yönetimi</li>
+            <li>Konsol yönetimi</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🔐</div>
+          <div class="module-name">Veritabanı & Güvenlik</div>
+          <ul class="module-items">
+            <li>Veritabanı yönetimi</li>
+            <li>Güvenlik anahtar yönetimi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform Mimarisi -->
+    <div class="product-section">
+      <div class="ps-title">Platform Mimarisi</div>
+      <div class="arch-layers">
+        <div class="arch-layer" style="background:#EAF2FF;border:1px solid #c5daff">
+          <div class="arch-layer-title" style="color:var(--accent)">İş Katmanı</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">İş Gereksinimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Unit Test</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Log Yönetimi</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:#F0F4FF;border:1px solid #d0dbff">
+          <div class="arch-layer-title" style="color:var(--blue-mid)">Donanım Bağımsız Ortak Katman</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Konsol Yönetimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Veritabanı Yönetimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Ekran Yönetimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Güvenlik Anahtar Yönetimi</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:#E8F0FF;border:1px solid #b8ccff">
+          <div class="arch-layer-title" style="color:var(--blue-deep)">Donanım Soyutlama Katmanı (HAL)</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Temaslı/Temassız Okuyucu</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">İletişim (GSM/ETH)</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Dosya Yönetimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Yazıcı Yönetimi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rekabet Avantajı -->
+    <div class="product-section">
+      <div class="ps-title">Rekabet Avantajı</div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Özellik</th>
+            <th>simiPOS</th>
+            <th>Diğer Üreticiler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Farklı Marka/Model Desteği</td><td><span class="yes">✓ Evet</span></td><td><span class="no">✗ Hayır</span></td></tr>
+          <tr><td>Bilgisayar Ortamında Debug</td><td><span class="yes">✓ Evet</span></td><td><span class="no">✗ Hayır</span></td></tr>
+          <tr><td>Unit Test Desteği</td><td><span class="yes">✓ Evet</span></td><td><span class="no">✗ Hayır</span></td></tr>
+          <tr><td>Efor Tasarrufu</td><td><span class="yes">%15–50</span></td><td><span class="no">—</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Kimler İçin -->
+    <div class="product-section">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>POS/ÖKC üretici firmalar</li>
+            <li>Yemek kartı firmaları</li>
+            <li>Bankalar</li>
+            <li>POS/ÖKC kullanan firmalar</li>
+            <li>POS/ÖKC uygulaması geliştiren yazılım evleri</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Platform Faydaları</div>
+          <ul class="check-list">
+            <li>Hızlı uygulama geliştirme</li>
+            <li>Bilgisayar ortamında debug ile hızlı hata ayıklama</li>
+            <li>Otomatize testler sayesinde daha az bug</li>
+            <li>Mevcut uygulamanın yeni çalışanlar tarafından hızlı öğrenilmesi</li>
+            <li>Developer'a olan bağımlılığın azaltılması</li>
+            <li>Cihaz markasından bağımsız geliştirme tecrübesi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>simiPOS hakkında detaylı bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-simipos -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: simiCard
+══════════════════════════════════════ -->
+<div id="page-simicard" class="page product-page">
+  <div class="product-hero">
+    <div class="product-hero-inner">
+      <div>
+        <div class="product-hero-breadcrumb">
+          <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-link" onclick="showPage('home')">Ürünler</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">simiCard</span>
+        </div>
+        <div class="product-hero-tag">🪪 Kart Üretim Uygulaması</div>
+        <h1>simiCard</h1>
+        <p class="product-hero-sub">Çip Personalizasyon ve Kart Üretim Uygulaması</p>
+        <p class="product-hero-desc">simiCard, kart üretim süreçlerinde çip personalizasyonu ve kart yönetimini sağlayan kapsamlı bir uygulamadır. ISO standartlarına tam uyumlu, güvenli ve ölçeklenebilir yapısıyla kart yaşam döngüsünün tamamını yönetir.</p>
+        <div class="product-hero-actions">
+          <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+          <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+        </div>
+      </div>
+      <div>
+        <div class="product-panel">
+          <div class="panel-title">🏗️ Modüller</div>
+          <div class="panel-list">
+            <div class="panel-list-item"><div class="panel-list-icon">🔬</div><div class="panel-list-text">Çip Personalizasyon</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">🎨</div><div class="panel-list-text">Kart Tasarım ve Üretim</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">♻️</div><div class="panel-list-text">Kart Yaşam Döngüsü Yönetimi</div></div>
+            <div class="panel-list-item"><div class="panel-list-icon">🔐</div><div class="panel-list-text">Güvenlik ve Şifreleme</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content" style="padding-top:0">
+    <div class="product-section">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-icon">🔬</div>
+          <div class="module-name">Çip Personalizasyon</div>
+          <ul class="module-items">
+            <li>EMV standartlarına uygun çip yazma</li>
+            <li>Güvenli key injection</li>
+            <li>Toplu personalizasyon desteği</li>
+            <li>Hata loglama ve izleme</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🎨</div>
+          <div class="module-name">Kart Tasarım & Üretim</div>
+          <ul class="module-items">
+            <li>Esnek kart tasarım şablonları</li>
+            <li>Toplu üretim yönetimi</li>
+            <li>Kart baskı entegrasyonu</li>
+            <li>Kalite kontrol süreçleri</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">♻️</div>
+          <div class="module-name">Yaşam Döngüsü Yönetimi</div>
+          <ul class="module-items">
+            <li>Kart aktivasyon ve deaktivasyonu</li>
+            <li>PIN yönetimi</li>
+            <li>Kart yenileme ve iptal süreçleri</li>
+            <li>Arşivleme ve raporlama</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-section">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Kart üretimi yapan şirketler</li>
+            <li>Kendi kartını basmak isteyen kuruluşlar</li>
+            <li>Bankalar ve fintech şirketleri</li>
+            <li>Kapalı devre ödeme sistemi kullanan kurumlar</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Platform Faydaları</div>
+          <ul class="check-list">
+            <li>Uçtan uca kart üretim yönetimi</li>
+            <li>Güvenli çip personalizasyonu</li>
+            <li>Esnek kart tasarım seçenekleri</li>
+            <li>Toplu üretim desteği</li>
+            <li>ISO/EMV standartlarına tam uyum</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>simiCard hakkında detaylı bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-simicard -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: Kampüs Kart
+══════════════════════════════════════ -->
+<div id="page-kampuskart" class="page solution-page">
+  <div class="solution-hero">
+    <div class="solution-hero-inner">
+      <div class="product-hero-breadcrumb">
+        <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-link" onclick="showPage('home')">Çözümler</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Kampüs Kart</span>
+      </div>
+      <div class="product-hero-tag" style="margin-top:16px">🎓 Eğitim & Kampüs Çözümü</div>
+      <h1 style="font-size:clamp(30px,3.5vw,48px);color:var(--blue-deep);margin-bottom:12px">Kampüs Kart</h1>
+      <p style="font-size:20px;color:var(--blue-mid);font-weight:500;margin-bottom:16px;font-style:italic">Üniversiteler ve Kampüsler İçin Kapalı Devre Ödeme Çözümü</p>
+      <p style="font-size:16px;color:var(--text-sub);line-height:1.75;max-width:680px;margin-bottom:32px">Kampüs Kart, üniversiteler ve kampüsler için özel olarak tasarlanmış kapalı devre ödeme çözümüdür. Öğrenci ve personel kartları ile kampüs içi tüm ödemeleri tek bir platformda yönetin. Yemekhaneden kütüphaneye, spor tesisinden fotokopi makinesine kadar tüm kampüs hizmetlerini tek kartla kullanılabilir hale getirin.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0">
+        <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+        <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+      </div>
+
+      <div class="solution-features-grid">
+        <div class="sf-card">
+          <div class="sf-icon">👤</div>
+          <div class="sf-name">Öğrenci & Personel Kart Yönetimi</div>
+          <div class="sf-desc">Öğrenci, akademisyen ve idari personel için ayrı yetki seviyeleri ve bakiye havuzları.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🍽️</div>
+          <div class="sf-name">Yemekhane & Kantin Entegrasyonu</div>
+          <div class="sf-desc">Hızlı geçiş, günlük limit tanımlama ve öğün bazlı kısıtlama desteği.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📚</div>
+          <div class="sf-name">Kütüphane Entegrasyonu</div>
+          <div class="sf-desc">Kitap ödünç alma, gecikme ücreti ve kaynak rezervasyonu tek platformda.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📱</div>
+          <div class="sf-name">Mobil Uygulama Desteği</div>
+          <div class="sf-desc">Bakiye yükleme, işlem geçmişi ve QR ödeme özellikli mobil uygulama.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📊</div>
+          <div class="sf-name">Merkezi Yönetim Paneli</div>
+          <div class="sf-desc">Tüm kampüs noktalarını tek panelden izleyin, raporlayın ve yönetin.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📡</div>
+          <div class="sf-name">QR & Temassız Ödeme</div>
+          <div class="sf-desc">Çipli kart, QR kod veya NFC ile hızlı ve güvenli ödeme deneyimi.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content">
+    <div class="product-section" style="border-top:none;padding-top:10px">
+      <div class="ps-title">Kullanım Alanları</div>
+      <div class="usage-grid">
+        <div class="usage-chip">🏛️ Üniversite Kampüsleri</div>
+        <div class="usage-chip">🏫 Özel Okul ve Kolejler</div>
+        <div class="usage-chip">🏢 Büyük Kurumsal Kampüsler</div>
+      </div>
+    </div>
+
+    <div class="product-section">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Üniversiteler ve yükseköğretim kurumları</li>
+            <li>K-12 okulları ve kolejler</li>
+            <li>Büyük kurumsal kampüs alanları</li>
+            <li>Kapalı kampüs yönetimi arayan kurumlar</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Faydaları</div>
+          <ul class="check-list">
+            <li>Kampüs içi tüm ödemeleri tek platformda birleştirme</li>
+            <li>Nakit kullanımını minimize etme</li>
+            <li>Gerçek zamanlı harcama takibi ve ebeveyn bilgilendirme</li>
+            <li>Kampüs güvenliğiyle entegrasyon imkânı</li>
+            <li>Toplu bakiye yükleme ve otomatik kesim</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>Kampüs Kart hakkında detaylı bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin ve kampüsünüze özel çözümü keşfedin.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-kampuskart -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: Yemek Kartı
+══════════════════════════════════════ -->
+<div id="page-yemekkarti" class="page solution-page">
+  <div class="solution-hero">
+    <div class="solution-hero-inner">
+      <div class="product-hero-breadcrumb">
+        <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-link" onclick="showPage('home')">Çözümler</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Yemek Kartı</span>
+      </div>
+      <div class="product-hero-tag" style="margin-top:16px">🍽️ Yemek Kartı Çözümü</div>
+      <h1 style="font-size:clamp(30px,3.5vw,48px);color:var(--blue-deep);margin-bottom:12px">Yemek Kartı</h1>
+      <p style="font-size:20px;color:var(--blue-mid);font-weight:500;margin-bottom:16px;font-style:italic">Yemek Kartı Şirketleri İçin Uçtan Uca Ödeme Altyapısı</p>
+      <p style="font-size:16px;color:var(--text-sub);line-height:1.75;max-width:680px;margin-bottom:32px">simiPayment altyapısı üzerine inşa edilmiş Yemek Kartı çözümümüz; kart ihraçından anlaşmalı üye iş yeri yönetimine, POS entegrasyonundan raporlamaya kadar tüm süreci kapsar. Hızlı onboarding, geniş kullanım ağı ve gerçek zamanlı bakiye yönetimiyle sektörde fark yaratın.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+        <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+      </div>
+
+      <div class="solution-features-grid">
+        <div class="sf-card">
+          <div class="sf-icon">🏪</div>
+          <div class="sf-name">Üye İş Yeri Ağı</div>
+          <div class="sf-desc">Restoran, büfe ve gıda noktalarını hızlıca sisteme alın, sözleşme ve komisyon yönetimini otomatikleştirin.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">💳</div>
+          <div class="sf-name">Kart İhraç & Yönetim</div>
+          <div class="sf-desc">Fiziksel kart üretiminden dijital kart ihracına, bakiye yükleme ve PIN yönetimine tam kapsamlı çözüm.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📊</div>
+          <div class="sf-name">Gerçek Zamanlı Raporlama</div>
+          <div class="sf-desc">İşlem bazlı anlık raporlar, kullanım analitiği ve kurumsal mutabakat ekranları.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🔗</div>
+          <div class="sf-name">POS & ÖKC Entegrasyonu</div>
+          <div class="sf-desc">simiPOS framework'ü ile farklı marka POS cihazlarına hızlı entegrasyon.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📱</div>
+          <div class="sf-name">Mobil & Dijital Kart</div>
+          <div class="sf-desc">Fiziksel kartın yanı sıra mobil uygulama üzerinden QR ile ödeme imkânı.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🏢</div>
+          <div class="sf-name">Self-Service Portal</div>
+          <div class="sf-desc">Şirketler için toplu çalışan kartı bakiye yükleme, dönemsel limit tanımlama ve otomatik kesim.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content">
+    <div class="product-section" style="border-top:none;padding-top:10px">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Yemek kartı ihraç etmek isteyen şirketler</li>
+            <li>Çalışanlarına yemek yardımı sağlayan kurumlar</li>
+            <li>Gıda sektörü ödeme çözümü arayışındaki firmalar</li>
+            <li>Dijital yemek kartı platformu kurmak isteyenler</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Faydaları</div>
+          <ul class="check-list">
+            <li>Hızlı onboarding ve kolay entegrasyon</li>
+            <li>Mevzuata uygun kart ihraç altyapısı</li>
+            <li>Kapsamlı üye iş yeri ağı yönetimi</li>
+            <li>Gerçek zamanlı bakiye ve işlem takibi</li>
+            <li>Esnek limit ve kısıtlama tanımları</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>Yemek Kartı çözümü hakkında bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin, size özel demo planlayalım.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-yemekkarti -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: Sadakat Kartı
+══════════════════════════════════════ -->
+<div id="page-sadakatkart" class="page solution-page">
+  <div class="solution-hero">
+    <div class="solution-hero-inner">
+      <div class="product-hero-breadcrumb">
+        <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-link" onclick="showPage('home')">Çözümler</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Sadakat Kartı</span>
+      </div>
+      <div class="product-hero-tag" style="margin-top:16px">⭐ Sadakat & Ödeme Entegrasyonu</div>
+      <h1 style="font-size:clamp(30px,3.5vw,48px);color:var(--blue-deep);margin-bottom:12px">Sadakat Kartı</h1>
+      <p style="font-size:20px;color:var(--blue-mid);font-weight:500;margin-bottom:16px;font-style:italic">Sadakat Programları ile Ödeme Entegrasyonu Çözümü</p>
+      <p style="font-size:16px;color:var(--text-sub);line-height:1.75;max-width:680px;margin-bottom:32px">Sadakat programlarınızı ödeme altyapısıyla birleştirin. Puan kazanma, harcama, kampanya yönetimi ve kart ihracını tek bir platformda yönetin. Müşterilerinizin her alışverişini ödüle dönüştürün.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+        <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+      </div>
+
+      <div class="solution-features-grid">
+        <div class="sf-card">
+          <div class="sf-icon">⭐</div>
+          <div class="sf-name">Puan Kazanma & Harcama</div>
+          <div class="sf-desc">Her işlemde otomatik puan kazandırın, puanları nakit veya hediyeye dönüştürün.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🎯</div>
+          <div class="sf-name">Kampanya Motoru</div>
+          <div class="sf-desc">Hedefli kampanya oluşturma, çift puan günleri, özel segment indirimleri.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">💳</div>
+          <div class="sf-name">Marka Kartı</div>
+          <div class="sf-desc">Kendi markalı sadakat kartını fiziksel veya dijital olarak ihraç edin.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📱</div>
+          <div class="sf-name">Mobil Uygulama</div>
+          <div class="sf-desc">Puan bakiyesi, kampanya bildirimleri ve dijital kart özellikli müşteri uygulaması.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📊</div>
+          <div class="sf-name">Müşteri Analitiği</div>
+          <div class="sf-desc">RFM analizi, kohort raporları ve müşteri davranış içgörüleri.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🔗</div>
+          <div class="sf-name">POS Entegrasyonu</div>
+          <div class="sf-desc">Mevcut POS altyapınıza sorunsuz sadakat entegrasyonu, sıfır ek donanım.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content">
+    <div class="product-section" style="border-top:none;padding-top:10px">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Kendi sadakat programını kurmak isteyen perakendeciler</li>
+            <li>Mevcut sadakat programına ödeme eklemek isteyenler</li>
+            <li>Zincir mağazalar ve franchise yapıları</li>
+            <li>Ortak sadakat programı oluşturmak isteyen markalar</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Faydaları</div>
+          <ul class="check-list">
+            <li>Ödeme ve sadakat altyapısını tek platformda birleştirme</li>
+            <li>Müşteri yaşam boyu değerini artırma</li>
+            <li>Veri odaklı kampanya yönetimi</li>
+            <li>Merkezi müşteri profili ve 360° görünüm</li>
+            <li>API ile mevcut CRM sistemlerine entegrasyon</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>Sadakat Kartı çözümü hakkında bilgi alın</h3>
+        <p>Uzman ekibimizle iletişime geçin, sadakat programınızı birlikte tasarlayalım.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-sadakatkart -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: Hediye Kartı
+══════════════════════════════════════ -->
+<div id="page-hedijekarti" class="page solution-page">
+  <div class="solution-hero">
+    <div class="solution-hero-inner">
+      <div class="product-hero-breadcrumb">
+        <span class="breadcrumb-link" onclick="showPage('home')">Ana Sayfa</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-link" onclick="showPage('home')">Çözümler</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Hediye Kartı</span>
+      </div>
+      <div class="product-hero-tag" style="margin-top:16px">🎁 Hediye Kartı Programı</div>
+      <h1 style="font-size:clamp(30px,3.5vw,48px);color:var(--blue-deep);margin-bottom:12px">Hediye Kartı</h1>
+      <p style="font-size:20px;color:var(--blue-mid);font-weight:500;margin-bottom:16px;font-style:italic">Markanıza Özel Fiziksel &amp; Dijital Hediye Kartı Programı</p>
+      <p style="font-size:16px;color:var(--text-sub);line-height:1.75;max-width:700px;margin-bottom:32px">Şirketlerin kendi markalı hediye kartlarını oluşturmasını, satmasını ve kullanımını yönetmesini sağlayan uçtan uca platform. Fiziksel kart veya dijital kod olarak ihraç edin; kasa entegrasyonu, POS ya da mobil uygulama üzerinden kendi mağazalarınızda kolayca kullandırın. Müşteri sadakatini artırın, ciro büyütün ve markanızı her hediyede ön plana çıkarın.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0">
+        <button class="btn-primary" onclick="showPage('contact')">İletişime Geçin →</button>
+        <button class="btn-secondary" onclick="showPage('home')">Ana Sayfaya Dön</button>
+      </div>
+
+      <div class="solution-features-grid">
+        <div class="sf-card">
+          <div class="sf-icon">🎨</div>
+          <div class="sf-name">Marka Kart Tasarımı</div>
+          <div class="sf-desc">Şirketinize özel tasarım, baskı ve ihraç. Sezonluk, kampanya ya da özel gün temalı farklı kart tasarımları oluşturun.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">💳</div>
+          <div class="sf-name">Fiziksel &amp; Dijital Kart</div>
+          <div class="sf-desc">Mağazada satış için çipli veya barkodlu fiziksel kart; ya da e-posta / SMS ile anında iletilen dijital kod. Her ikisini aynı anda yönetin.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🖥️</div>
+          <div class="sf-name">Kasa Entegrasyonu</div>
+          <div class="sf-desc">Barkod okuyucu veya kasa yazılımı üzerinden anlık bakiye sorgulama ve harcama. Kasiyerin sıfır eforla hediye kartı kabul etmesi.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📱</div>
+          <div class="sf-name">POS &amp; Mobil Ödeme</div>
+          <div class="sf-desc">simiPOS entegrasyonu ile POS cihazından temassız veya çipli kullanım; ya da QR kod ile müşterinin kendi telefonundan ödeme.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">🔄</div>
+          <div class="sf-name">Bakiye &amp; Geçerlilik Yönetimi</div>
+          <div class="sf-desc">Son kullanma tarihi, kısmi harcama ve kalan bakiye sorgulama desteği. Müşteri bakiye takibini SMS veya mobil uygulama ile kolaylaştırın.</div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-icon">📊</div>
+          <div class="sf-name">Merkezi Yönetim &amp; Raporlama</div>
+          <div class="sf-desc">Kart satışı, kullanım oranı ve kullanılmayan bakiye (breakage) takibi. Kampanya analitikleri ve gelir optimizasyonu için kapsamlı raporlar.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-content">
+
+    <!-- Kullanım Senaryoları -->
+    <div class="product-section" style="border-top:none;padding-top:30px">
+      <div class="ps-title">Kullanım Senaryoları</div>
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-icon">🛍️</div>
+          <div class="module-name">Perakende Zinciri</div>
+          <ul class="module-items">
+            <li>Mağaza rafında fiziksel hediye kartı satışı</li>
+            <li>Doğum günü, yılbaşı, bayram kampanyaları</li>
+            <li>Tüm şube ve online kanalda ortak kullanım</li>
+            <li>İade yerine hediye kartı verme seçeneği</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🌐</div>
+          <div class="module-name">E-Ticaret &amp; Dijital</div>
+          <ul class="module-items">
+            <li>Web sitesinden anlık dijital kod satışı</li>
+            <li>E-posta veya SMS ile anında teslimat</li>
+            <li>Online ödeme sayfasında kart kodu girişi</li>
+            <li>Mobil uygulama ile QR kod kullanımı</li>
+          </ul>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🏢</div>
+          <div class="module-name">Kurumsal &amp; B2B</div>
+          <ul class="module-items">
+            <li>Çalışan ödülü ve yılbaşı hediyesi toplu alım</li>
+            <li>Müşteri teşvik ve promosyon kampanyaları</li>
+            <li>Tek fatura ile toplu kod ihracı</li>
+            <li>Kurumsal dashboard ile kullanım takibi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kimler İçin / Faydalar -->
+    <div class="product-section">
+      <div class="ab-grid">
+        <div class="ab-card">
+          <div class="ab-card-title">🎯 Kimler İçin Uygun?</div>
+          <ul class="check-list">
+            <li>Kendi markalı hediye kartı programı kurmak isteyen perakende zincirleri</li>
+            <li>E-ticaret siteleri ve omnichannel mağazalar</li>
+            <li>Restoran, kafe ve gıda zincirleri</li>
+            <li>Çalışanlarına toplu hediye kartı vermek isteyen kurumlar</li>
+            <li>Müşteri kampanyalarında hediye kodu kullanmak isteyen markalar</li>
+          </ul>
+        </div>
+        <div class="ab-card">
+          <div class="ab-card-title">✨ Platform Faydaları</div>
+          <ul class="check-list">
+            <li>Nakit yerine mağazaya bağlı harcama ile ciro güvencesi</li>
+            <li>Kullanılmayan bakiye (breakage) geliri</li>
+            <li>Yeni müşteri kazanımı — hediye alanlar ilk kez mağazaya geliyor</li>
+            <li>Ortalama sepet tutarını artırma (kart değerinin üzerine harcama)</li>
+            <li>Marka bilinirliği — kart cüzdanda taşındıkça reklam değeri</li>
+            <li>Fiziksel + dijital + POS kanallarında tek platform yönetimi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Omnichannel Akışı -->
+    <div class="product-section">
+      <div class="ps-title">Omnichannel Kullanım Akışı</div>
+      <div class="arch-layers">
+        <div class="arch-layer" style="background:#EAF2FF;border:1px solid #c5daff">
+          <div class="arch-layer-title" style="color:var(--accent)">Kart İhraç Kanalları</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">🏪 Mağaza Kasası</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">🌐 Web Sitesi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">📱 Mobil Uygulama</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">🏢 Kurumsal Toplu Sipariş</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:#F0F4FF;border:1px solid #d0dbff">
+          <div class="arch-layer-title" style="color:var(--blue-mid)">simiPayment Hediye Kartı Motoru</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Kart Aktivasyon</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Bakiye Yönetimi</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">İşlem Onaylama</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">Raporlama &amp; Analitik</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:#E8F0FF;border:1px solid #b8ccff">
+          <div class="arch-layer-title" style="color:var(--blue-deep)">Kullanım / Harcama Kanalları</div>
+          <div class="arch-layer-items">
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">🖥️ Kasa Entegrasyonu (Barkod)</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">💳 POS Cihazı (simiPOS)</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">📱 Mobil QR Ödeme</span>
+            <span class="arch-chip" style="background:white;color:var(--blue-deep)">🌐 Online Checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breakage bilgisi -->
+    <div class="product-section">
+      <div class="effort-grid">
+        <div class="effort-card">
+          <div class="effort-pct">%10–15</div>
+          <div class="effort-label">Ortalama breakage oranı — kullanılmayan bakiye işletme geliri olarak kalır</div>
+        </div>
+        <div class="effort-card">
+          <div class="effort-pct">%35</div>
+          <div class="effort-label">Hediye kartı kullananların kart değerini aşan harcama yapma oranı (global ortalama)</div>
+        </div>
+        <div class="effort-card">
+          <div class="effort-pct">6×</div>
+          <div class="effort-label">Hediye kartı ile gelen yeni müşterilerin tekrar ziyaret olasılığı artışı</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h3>Hediye Kartı programınızı birlikte tasarlayalım</h3>
+        <p>Uzman ekibimizle iletişime geçin, markanıza özel çözümü keşfedin.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="showPage('contact')">İletişime Geçin →</button>
+    </div>
+  </div>
+</div><!-- /page-hedijekarti -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: CONTACT
+══════════════════════════════════════ -->
+<div id="page-contact" class="page" style="padding-top:var(--nav-h);">
+  <div>
+    <div style="background:var(--blue-deep);padding:60px 5vw 50px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,102,255,.2) 0%,transparent 70%);border-radius:50%;"></div>
+      <div class="container" style="position:relative;z-index:1;">
+        <p class="section-label" style="color:rgba(255,255,255,.5)" data-tr="İletişim" data-en="Contact">İletişim</p>
+        <h1 style="font-size:clamp(28px,3.5vw,46px);color:white;margin-bottom:12px;" data-tr="Projenizi Birlikte Hayata Geçirelim" data-en="Let's Build Your Project Together">Projenizi Birlikte Hayata Geçirelim</h1>
+        <p style="font-size:16px;color:rgba(255,255,255,.6);max-width:560px;" data-tr="Ödeme teknolojileri alanındaki ihtiyaçlarınızı konuşmak için formu doldurun. Uzman ekibimiz en kısa sürede size dönecektir." data-en="Fill in the form to discuss your payment technology needs. Our expert team will get back to you as soon as possible.">Ödeme teknolojileri alanındaki ihtiyaçlarınızı konuşmak için formu doldurun. Uzman ekibimiz en kısa sürede size dönecektir.</p>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:60px;padding-bottom:80px;">
+      <div class="contact-layout-grid">
+
+        <!-- Sol: İletişim bilgileri -->
+        <div>
+          <h3 style="font-size:18px;color:var(--blue-deep);margin-bottom:24px;" data-tr="İletişim Bilgileri" data-en="Contact Information">İletişim Bilgileri</h3>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:46px;height:46px;background:var(--blue-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📍</div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;" data-tr="Adres" data-en="Address">Adres</div>
+                <div style="font-size:14px;color:var(--text-main);line-height:1.6;">Fırat Teknokent, Çaydaçıra Mah. Prof. Dr. Nuri Orhan Blv. No: 9 İç Kapı No: B05 Merkez / Elazığ</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:46px;height:46px;background:var(--blue-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📧</div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;" data-tr="E-posta" data-en="Email">E-posta</div>
+                <div style="font-size:14px;color:var(--text-main);">info@simirnatech.com</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:46px;height:46px;background:var(--blue-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🌐</div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;" data-tr="Web Sitesi" data-en="Website">Web Sitesi</div>
+                <div style="font-size:14px;color:var(--text-main);">www.simirnatech.com</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+                <!-- Sağ: Form -->
+        <div class="contact-form-card" style="background:white;border-radius:20px;padding:40px;border:1px solid var(--gray-100);box-shadow:var(--shadow-md);">
+
+          <div class="form-row" style="margin-bottom:16px;">
+            <div class="form-field">
+              <label data-tr="Ad Soyad" data-en="Full Name">Ad Soyad</label>
+              <input type="text" data-placeholder-tr="Adınız Soyadınız" data-placeholder-en="Your Full Name" placeholder="Adınız Soyadınız">
+            </div>
+            <div class="form-field">
+              <label data-tr="E-posta" data-en="Email">E-posta</label>
+              <input type="email" data-placeholder-tr="ornek@sirket.com" data-placeholder-en="example@company.com" placeholder="ornek@sirket.com">
+            </div>
+          </div>
+
+          <div class="form-field" style="margin-bottom:16px;">
+            <label data-tr="Şirket" data-en="Company">Şirket</label>
+            <input type="text" data-placeholder-tr="Şirket adınız" data-placeholder-en="Your company name" placeholder="Şirket adınız">
+          </div>
+
+          <div class="form-field" style="margin-bottom:16px;">
+            <label data-tr="Konu" data-en="Subject">Konu</label>
+            <select style="width:100%;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:10px;padding:11px 14px;font-size:14px;font-family:inherit;color:var(--text-main);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23607D8B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;">
+              <option data-tr="Ürün Bilgisi" data-en="Product Information">Ürün Bilgisi</option>
+              <option data-tr="Demo Talebi" data-en="Demo Request">Demo Talebi</option>
+              <option data-tr="Teknik Destek" data-en="Technical Support">Teknik Destek</option>
+              <option data-tr="İş Ortaklığı" data-en="Partnership">İş Ortaklığı</option>
+              <option data-tr="Diğer" data-en="Other">Diğer</option>
+            </select>
+          </div>
+
+          <div class="form-field" style="margin-bottom:24px;">
+            <label data-tr="Mesajınız" data-en="Your Message">Mesajınız</label>
+            <textarea rows="5" data-placeholder-tr="Proje detaylarını ve ihtiyaçlarınızı paylaşın..." data-placeholder-en="Share your project details and requirements..." placeholder="Proje detaylarını ve ihtiyaçlarınızı paylaşın..." style="resize:vertical;"></textarea>
+          </div>
+
+          <button class="form-submit" style="width:100%;" data-tr="Mesaj Gönder →" data-en="Send Message →">Mesaj Gönder →</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-contact -->
+
+<!-- ══════════════════════════════════════
+     PAGE: HAKKIMIZDA
+══════════════════════════════════════ -->
+<div id="page-hakkimizda" class="page" style="padding-top:var(--nav-h);">
+
+    <div style="background:linear-gradient(150deg,#fff 0%,var(--blue-pale) 100%);padding:72px 5vw 60px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,102,255,.1) 0%,transparent 70%);border-radius:50%;"></div>
+      <div class="container" style="position:relative;z-index:1;">
+        <p class="section-label" data-tr="Kurumsal" data-en="Corporate">Kurumsal</p>
+        <h1 style="font-size:clamp(30px,4vw,52px);color:var(--blue-deep);margin-bottom:16px;" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</h1>
+        <p style="font-size:18px;color:var(--text-sub);max-width:640px;line-height:1.75;" data-tr="Ödeme teknolojilerinde 20 yılı aşkın deneyimimizle Türkiye'nin güvenilir teknoloji ortağıyız." data-en="With over 20 years of experience in payment technologies, we are Turkey's trusted technology partner.">Ödeme teknolojilerinde 20 yılı aşkın deneyimimizle Türkiye'nin güvenilir teknoloji ortağıyız.</p>
+      </div>
+    </div>
+
+    <div class="container" style="padding:70px 5vw 80px;">
+
+      <!-- Şirket Hikayesi -->
+      <div class="about-story-grid">
+        <div>
+          <p class="section-label" data-tr="Hikayemiz" data-en="Our Story">Hikayemiz</p>
+          <h2 class="section-title" data-tr="Ödeme Teknolojilerinde İki Dekadlık Birikim" data-en="Two Decades of Payment Technology">Ödeme Teknolojilerinde İki Dekadlık Birikim</h2>
+          <p style="font-size:15px;color:var(--text-sub);line-height:1.8;margin-bottom:18px;" data-tr="Simirna Technology, ödeme teknolojileri alanında uzmanlaşmış bir teknoloji şirketidir. Elazığ Fırat Teknokent'teki Ar-Ge merkezimizden, kapalı devre ödeme sistemleri, POS uygulama geliştirme ve kart yaşam döngüsü yönetimi alanlarında derinlemesine uzmanlaşmış çözümler geliştiriyoruz." data-en="Simirna Technology is a technology company specializing in payment technologies. From our R&D center at Fırat Technopark in Elazığ, we develop deeply specialized solutions in closed-loop payment systems, POS application development and card lifecycle management.">Simirna Technology, ödeme teknolojileri alanında uzmanlaşmış bir teknoloji şirketidir. Elazığ Fırat Teknokent'teki Ar-Ge merkezimizden, kapalı devre ödeme sistemleri, POS uygulama geliştirme ve kart yaşam döngüsü yönetimi alanlarında derinlemesine uzmanlaşmış çözümler geliştiriyoruz.</p>
+          <p style="font-size:15px;color:var(--text-sub);line-height:1.8;" data-tr="Bugün Türkiye'nin pek çok sektöründe, fintech'ten perakende zincirine, üniversite kampüslerinden yemek kartı şirketlerine kadar geniş bir müşteri tabanına hizmet veriyoruz." data-en="Today we serve a broad customer base across many sectors in Turkey, from fintech to retail chains, university campuses to meal card companies.">Bugün Türkiye'nin pek çok sektöründe, fintech'ten perakende zincirine, üniversite kampüslerinden yemek kartı şirketlerine kadar geniş bir müşteri tabanına hizmet veriyoruz.</p>
+        </div>
+        <div class="about-stats-grid">
+          <div style="background:var(--blue-deep);border-radius:16px;padding:28px 24px;text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:800;color:white;">20<span style="color:var(--blue-light)">+</span></div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:6px;" data-tr="Yıllık Deneyim" data-en="Years Experience">Yıllık Deneyim</div>
+          </div>
+          <div style="background:var(--accent);border-radius:16px;padding:28px 24px;text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:800;color:white;">150<span style="color:rgba(255,255,255,.7)">+</span></div>
+            <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:6px;" data-tr="Başarılı Proje" data-en="Successful Projects">Başarılı Proje</div>
+          </div>
+          <div style="background:var(--blue-pale);border-radius:16px;padding:28px 24px;text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:800;color:var(--blue-deep);">50<span style="color:var(--accent)">+</span></div>
+            <div style="font-size:13px;color:var(--text-sub);margin-top:6px;" data-tr="Kurumsal Müşteri" data-en="Corporate Clients">Kurumsal Müşteri</div>
+          </div>
+          <div style="background:var(--gray-50);border-radius:16px;padding:28px 24px;text-align:center;border:1px solid var(--gray-100);">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:800;color:var(--blue-deep);">7/24</div>
+            <div style="font-size:13px;color:var(--text-sub);margin-top:6px;" data-tr="Teknik Destek" data-en="Technical Support">Teknik Destek</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vizyon & Misyon -->
+      <div class="about-vm-grid">
+        <div style="background:var(--blue-deep);border-radius:20px;padding:40px;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:rgba(0,102,255,.2);border-radius:50%;"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:32px;margin-bottom:16px;">🔭</div>
+            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:14px;" data-tr="Vizyonumuz" data-en="Our Vision">Vizyonumuz</h3>
+            <p style="font-size:15px;color:rgba(255,255,255,.78);line-height:1.8;" data-tr="Ödeme teknolojilerinde yalnızca ürün tedarik eden bir firma değil; kurumların stratejik teknoloji ortağı olarak tanınan bir marka olmak. Farklı ölçek ve sektörlerdeki iş ortaklarımızın—kampüslerden yemek kartı operatörlerine, perakendeden finans kuruluşlarına—kendi ödeme ağlarını güvenle kurabildiği, yönetebildiği ve ölçeklendirebildiği bir ekosistem inşa etmek. Yenilikçi, esnek ve geleceğe hazır altyapılarımızla Türkiye'de ve bölgede kapalı devre ödeme çözümlerinde referans noktası haline gelmek." data-en="To be recognized not just as a product supplier in payment technologies, but as a strategic technology partner to institutions — building an ecosystem where partners of all scales can confidently build, manage and scale their own payment networks.">Ödeme teknolojilerinde yalnızca ürün tedarik eden bir firma değil; kurumların stratejik teknoloji ortağı olarak tanınan bir marka olmak. Farklı ölçek ve sektörlerdeki iş ortaklarımızın—kampüslerden yemek kartı operatörlerine, perakendeden finans kuruluşlarına—kendi ödeme ağlarını güvenle kurabildiği, yönetebildiği ve ölçeklendirebildiği bir ekosistem inşa etmek. Yenilikçi, esnek ve geleceğe hazır altyapılarımızla Türkiye'de ve bölgede kapalı devre ödeme çözümlerinde referans noktası haline gelmek.</p>
+          </div>
+        </div>
+        <div style="background:white;border-radius:20px;padding:40px;border:2px solid var(--accent);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:rgba(0,102,255,.06);border-radius:50%;"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:32px;margin-bottom:16px;">🎯</div>
+            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:var(--blue-deep);margin-bottom:14px;" data-tr="Misyonumuz" data-en="Our Mission">Misyonumuz</h3>
+            <p style="font-size:15px;color:var(--text-sub);line-height:1.8;" data-tr="Simirna olarak, kurumların ödeme ihtiyaçlarını yalnızca bir yazılım projesi değil, uzun vadeli bir iş ortaklığı olarak ele alıyoruz. Her sektörün kendine özgü iş modelini, operasyonel beklentilerini ve büyüme hedeflerini dikkate alarak; kapalı devre ödeme, POS uygulama geliştirme ve kart üretim süreçlerini tek ve tutarlı bir mimaride bir araya getiriyoruz. İhtiyaç analizinden çözüm tasarımına, devreye almadan 7/24 teknik desteğe kadar tüm süreçlerde müşterilerimizin yanında yer alıyor; hızlı entegrasyon, minimum operasyonel kesinti ve sürdürülebilir destekle sistemlerinin güvenle çalışmasını sağlıyoruz." data-en="At Simirna, we treat our clients payment needs as a long-term business partnership — not just a software project. We bring together closed-loop payment, POS development and card production in a single consistent architecture, supporting clients from analysis through 24/7 technical support.">Simirna olarak, kurumların ödeme ihtiyaçlarını yalnızca bir yazılım projesi değil, uzun vadeli bir iş ortaklığı olarak ele alıyoruz. Her sektörün kendine özgü iş modelini, operasyonel beklentilerini ve büyüme hedeflerini dikkate alarak; kapalı devre ödeme, POS uygulama geliştirme ve kart üretim süreçlerini tek ve tutarlı bir mimaride bir araya getiriyoruz. İhtiyaç analizinden çözüm tasarımına, devreye almadan 7/24 teknik desteğe kadar tüm süreçlerde müşterilerimizin yanında yer alıyor; hızlı entegrasyon, minimum operasyonel kesinti ve sürdürülebilir destekle sistemlerinin güvenle çalışmasını sağlıyoruz.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Değerlerimiz -->
+      <div style="margin-bottom:80px;">
+        <p class="section-label" style="text-align:center;" data-tr="Değerlerimiz" data-en="Our Values">Değerlerimiz</p>
+        <h2 class="section-title" style="text-align:center;margin-bottom:40px;" data-tr="Bizi Biz Yapan İlkeler" data-en="The Principles That Define Us">Bizi Biz Yapan İlkeler</h2>
+        <div class="about-values-grid">
+          <div style="background:white;border-radius:16px;padding:28px 22px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);text-align:center;">
+            <div style="font-size:32px;margin-bottom:14px;">🔒</div>
+            <h4 style="font-size:15px;color:var(--blue-deep);margin-bottom:8px;" data-tr="Güvenlik" data-en="Security">Güvenlik</h4>
+            <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" data-tr="Her üründe en yüksek güvenlik standartlarını esas alırız." data-en="We uphold the highest security standards in every product.">Her üründe en yüksek güvenlik standartlarını esas alırız.</p>
+          </div>
+          <div style="background:white;border-radius:16px;padding:28px 22px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);text-align:center;">
+            <div style="font-size:32px;margin-bottom:14px;">⚡</div>
+            <h4 style="font-size:15px;color:var(--blue-deep);margin-bottom:8px;" data-tr="Hız" data-en="Speed">Hız</h4>
+            <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" data-tr="Hızlı entegrasyon ve kesintisiz operasyon önceliğimizdir." data-en="Fast integration and uninterrupted operation are our priority.">Hızlı entegrasyon ve kesintisiz operasyon önceliğimizdir.</p>
+          </div>
+          <div style="background:white;border-radius:16px;padding:28px 22px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);text-align:center;">
+            <div style="font-size:32px;margin-bottom:14px;">🤝</div>
+            <h4 style="font-size:15px;color:var(--blue-deep);margin-bottom:8px;" data-tr="Ortaklık" data-en="Partnership">Ortaklık</h4>
+            <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" data-tr="Müşterilerimizi uzun vadeli iş ortağı olarak görürüz." data-en="We view our customers as long-term business partners.">Müşterilerimizi uzun vadeli iş ortağı olarak görürüz.</p>
+          </div>
+          <div style="background:white;border-radius:16px;padding:28px 22px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);text-align:center;">
+            <div style="font-size:32px;margin-bottom:14px;">💡</div>
+            <h4 style="font-size:15px;color:var(--blue-deep);margin-bottom:8px;" data-tr="İnovasyon" data-en="Innovation">İnovasyon</h4>
+            <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" data-tr="Sektörün ihtiyaçlarını öngörerek sürekli gelişen ürünler tasarlarız." data-en="We design continuously evolving products by anticipating industry needs.">Sektörün ihtiyaçlarını öngörerek sürekli gelişen ürünler tasarlarız.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-strip">
+        <div class="cta-strip-text">
+          <h3 data-tr="Birlikte çalışalım" data-en="Let's work together">Birlikte çalışalım</h3>
+          <p data-tr="Ödeme teknolojileri ihtiyaçlarınız için uzman ekibimizle tanışın." data-en="Meet our expert team for your payment technology needs.">Ödeme teknolojileri ihtiyaçlarınız için uzman ekibimizle tanışın.</p>
+        </div>
+        <button class="cta-strip-btn" onclick="showPage('contact')" data-tr="İletişime Geçin →" data-en="Get in Touch →">İletişime Geçin →</button>
+      </div>
+
+    </div>
+</div><!-- /page-hakkimizda -->
+
+<!-- ══════════════════════════════════════
+     PAGE: REFERANSLAR
+══════════════════════════════════════ -->
+<div id="page-referanslar" class="page" style="padding-top:var(--nav-h);">
+
+    <div style="background:linear-gradient(150deg,#fff 0%,var(--blue-pale) 100%);padding:72px 5vw 60px;">
+      <div class="container">
+        <p class="section-label" data-tr="Kurumsal" data-en="Corporate">Kurumsal</p>
+        <h1 style="font-size:clamp(30px,4vw,52px);color:var(--blue-deep);margin-bottom:16px;" data-tr="Referanslarımız" data-en="Our References">Referanslarımız</h1>
+        <p style="font-size:17px;color:var(--text-sub);max-width:640px;line-height:1.75;" data-tr="Ödeme sistemleri, yemek kartları, kapalı devre kart çözümleri ve POS entegrasyonları alanında birçok kurumla başarılı projeler gerçekleştirdik." data-en="We have successfully completed projects with many institutions in payment systems, meal cards, closed-loop solutions and POS integrations.">Ödeme sistemleri, yemek kartları, kapalı devre kart çözümleri ve POS entegrasyonları alanında birçok kurumla başarılı projeler gerçekleştirdik.</p>
+      </div>
+    </div>
+
+    <div class="container" style="padding:60px 5vw 80px;">
+      <div class="refs-grid" style="margin-bottom:60px;">
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img src="images/referanslar/tokenflex-logo.png" alt="TokenFlex" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="Yemek Kartı · POS Entegrasyonu" data-en="Meal Card · POS Integration">Yemek Kartı · POS Entegrasyonu</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="simiPOS platformu üzerinden iki farklı ÖKC cihazında TokenFlex yemek kartı kabulü başarıyla sağlandı. Farklı cihaz altyapılarında kesintisiz işlem imkânı hayata geçirildi." data-en="TokenFlex meal card acceptance was successfully enabled on two different ÖKC devices via the simiPOS platform.">simiPOS platformu üzerinden iki farklı ÖKC cihazında TokenFlex yemek kartı kabulü başarıyla sağlandı. Farklı cihaz altyapılarında kesintisiz işlem imkânı hayata geçirildi.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/iwallet-logo.png" alt="iWallet" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="Kart Üretim · Kişiselleştirme" data-en="Card Production · Personalization">Kart Üretim · Kişiselleştirme</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="simiCard platformu ile iWallet'ın kart üretim, kişiselleştirme ve yaşam döngüsü yönetim süreçleri hayata geçirildi." data-en="iWallet's card production, personalization and lifecycle management processes were implemented using the simiCard platform.">simiCard platformu ile iWallet'ın kart üretim, kişiselleştirme ve yaşam döngüsü yönetim süreçleri hayata geçirildi.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/multinetup-logo.png" alt="Multinet Up" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="Kart Üretim · POS · SAM Kart" data-en="Card Production · POS · SAM Card">Kart Üretim · POS · SAM Kart</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="İki farklı POS/ÖKC modelinde Multinet yemek kartı kabulü sağlandı. simiCard altyapısıyla kart üretim yapıldı. SAM kart üretimi ve SoftHSM entegrasyonu tamamlandı." data-en="Multinet meal card acceptance was enabled on two POS/ÖKC models. Card production and SAM card integration were completed.">İki farklı POS/ÖKC modelinde Multinet yemek kartı kabulü sağlandı. simiCard altyapısıyla kart üretim yapıldı. SAM kart üretimi ve SoftHSM entegrasyonu tamamlandı.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/paygo-logo.png" alt="PayGo" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="Ulaşım · POS Entegrasyonu" data-en="Transportation · POS Integration">Ulaşım · POS Entegrasyonu</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="MasterPOS güvenlik anahtarlarının yüklenmesi ve yönetimi tamamlandı. İstanbulkart'ın üye işyerlerinde kullanılabilmesi için POS entegrasyonları devreye alındı." data-en="MasterPOS security key management was completed. POS integrations were deployed to enable İstanbulkart at merchant locations.">MasterPOS güvenlik anahtarlarının yüklenmesi ve yönetimi tamamlandı. İstanbulkart'ın üye işyerlerinde kullanılabilmesi için POS entegrasyonları devreye alındı.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img src="images/referanslar/propay-logo.png" alt="Propay" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="POS · ÖKC Entegrasyonu" data-en="POS · ÖKC Integration">POS · ÖKC Entegrasyonu</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="simiPOS platformu ile Propay müşterilerinin ihtiyaç duyduğu POS ve ÖKC çözümleri geliştirildi. Farklı ödeme senaryolarını destekleyen esnek entegrasyonlar hayata geçirildi." data-en="POS and ÖKC solutions required by Propay customers were developed using the simiPOS platform.">simiPOS platformu ile Propay müşterilerinin ihtiyaç duyduğu POS ve ÖKC çözümleri geliştirildi. Farklı ödeme senaryolarını destekleyen esnek entegrasyonlar hayata geçirildi.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/sodexo-logo.png" alt="Sodexo" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="Yemek Kartı · Üye İş Yeri" data-en="Meal Card · Merchant Network">Yemek Kartı · Üye İş Yeri</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="Sodexo yemek kartlarının TAB Gıda bünyesindeki üye işyerlerinde kullanılabilmesi amacıyla POS entegrasyonları tamamlandı. Geniş ağda hızlı ve güvenilir ödeme deneyimi sağlandı." data-en="POS integrations were completed to enable Sodexo meal cards at TAB Gıda merchant locations.">Sodexo yemek kartlarının TAB Gıda bünyesindeki üye işyerlerinde kullanılabilmesi amacıyla POS entegrasyonları tamamlandı. Geniş ağda hızlı ve güvenilir ödeme deneyimi sağlandı.</p>
+        </div>
+        <div style="background:white;border-radius:var(--radius);padding:32px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:16px;transition:all .3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='rgba(0,102,255,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--gray-100)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <span class="ref-logo"><img class="logo-square" src="images/referanslar/verifone-logo.png" alt="Verifone" loading="lazy"></span>
+            <span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--blue-pale);color:var(--accent);white-space:nowrap;" data-tr="ÖKC · POS · Çok Cihaz Desteği" data-en="ÖKC · POS · Multi-Device Support">ÖKC · POS · Çok Cihaz Desteği</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-sub);line-height:1.75;margin:0;" data-tr="Verifone ekosisteminde faaliyet gösteren müşteriler için simiPOS platformu üzerinden ÖKC ve POS çözümleri sunuldu. Farklı cihaz modelleri ve ödeme altyapılarıyla uyumlu entegrasyonlar gerçekleştirildi." data-en="ÖKC and POS solutions were provided via the simiPOS platform for customers in the Verifone ecosystem.">Verifone ekosisteminde faaliyet gösteren müşteriler için simiPOS platformu üzerinden ÖKC ve POS çözümleri sunuldu. Farklı cihaz modelleri ve ödeme altyapılarıyla uyumlu entegrasyonlar gerçekleştirildi.</p>
+        </div>
+      </div>
+
+      <div class="cta-strip">
+        <div class="cta-strip-text">
+          <h3 data-tr="Siz de aramıza katılın" data-en="Join our growing family">Siz de aramıza katılın</h3>
+          <p data-tr="Başarılı proje deneyimimizden yararlanın." data-en="Benefit from our successful project experience.">Başarılı proje deneyimimizden yararlanın.</p>
+        </div>
+        <button class="cta-strip-btn" onclick="showPage('contact')" data-tr="İletişime Geçin →" data-en="Get in Touch →">İletişime Geçin →</button>
+      </div>
+    </div>
+
+</div><!-- /page-referanslar -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo" onclick="showPage('home')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297.01 100" style="display:block;height:44px;width:auto;">
+<g transform="translate(2,18.5) scale(0.63)"><polygon points="50.00,3.50 90.27,26.75 90.27,73.25 50.00,96.50 9.73,73.25 9.73,26.75" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linejoin="round"/><polygon points="50.00,9.50 85.07,29.75 85.07,70.25 50.00,90.50 14.93,70.25 14.93,29.75" fill="none" stroke="#3D8BFF" stroke-width="1" opacity="0.7" stroke-linejoin="round"/><g transform="translate(50,50) scale(0.62) translate(-50,-50)"><g fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="7" r="1.5" fill="#3D8BFF" stroke="none"/><line x1="50" y1="9" x2="50" y2="12.5"/><path d="M43,20 Q50,10 57,20"/><line x1="42.5" y1="20" x2="57.5" y2="20"/><rect x="43" y="23.5" width="14" height="18.5" rx="1.2"/><circle cx="50" cy="32.7" r="4.6" stroke="#3D8BFF"/><line x1="50" y1="32.7" x2="50" y2="29" stroke="#3D8BFF"/><line x1="50" y1="32.7" x2="52.6" y2="33.9" stroke="#3D8BFF"/><polygon points="44,42 56,42 60,79 40,79"/><line x1="42.6" y1="55" x2="57.4" y2="55"/><line x1="41.4" y1="67" x2="58.6" y2="67"/><rect x="36" y="79" width="28" height="5"/><rect x="31.5" y="84" width="37" height="6" rx="1.2"/></g></g></g>
+<text x="79" y="58.6" font-family="Manrope, sans-serif" font-size="56" letter-spacing="0" textLength="210.01" lengthAdjust="spacing"><tspan fill="#3D8BFF" font-weight="800">Simi</tspan><tspan fill="#FFFFFF" font-weight="600">rna</tspan></text>
+<text x="79" y="81.7" font-family="JetBrains Mono, monospace" font-weight="500" font-size="14" textLength="210.01" lengthAdjust="spacing" fill="#8AA2BE">TECHNOLOGY</text>
+</svg>
+        </div>
+        <p class="footer-brand-text">20 yılı aşkın deneyimimizle Türkiye'nin ödeme teknolojileri alanındaki güvenilir çözüm ortağı.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="Ürünler" data-en="Products">Ürünler</h4>
+        <a onclick="showPage('simipayment')">simiPayment</a>
+        <a onclick="showPage('simipos')">simiPOS</a>
+        <a onclick="showPage('simicard')">simiCard</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="Çözümler" data-en="Solutions">Çözümler</h4>
+        <a onclick="showPage('kampuskart')">Kampüs Kart</a>
+        <a onclick="showPage('yemekkarti')">Yemek Kartı</a>
+        <a onclick="showPage('sadakatkart')">Sadakat Kartı</a>
+        <a onclick="showPage('hedijekarti')">Hediye Kartı</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="Şirket" data-en="Company">Şirket</h4>
+        <a onclick="showPage('hakkimizda')" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</a>
+        <a onclick="showPage('referanslar')" data-tr="Referanslar" data-en="References">Referanslar</a>
+        <a onclick="showPage('contact')" data-tr="İletişim" data-en="Contact">İletişim</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-tr="© 2026 Simirna Teknoloji A.Ş. Tüm hakları saklıdır." data-en="© 2026 Simirna Technology Inc. All rights reserved.">© 2026 Simirna Teknoloji A.Ş. Tüm hakları saklıdır.</span>
+      <div style="display:flex;gap:18px">
+        <a data-tr="Gizlilik Politikası" data-en="Privacy Policy">Gizlilik Politikası</a>
+        <a data-tr="Kullanım Koşulları" data-en="Terms of Use">Kullanım Koşulları</a>
+        <a data-tr="KVKK" data-en="KVKK">KVKK</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   i18n — TR / EN
+══════════════════════════════════════ */
+let currentLang = localStorage.getItem('simirna-lang') || (navigator.language.startsWith('en') ? 'en' : 'tr');
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-tr]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    const tag = el.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') {
+      el.placeholder = val;
+    } else if (tag === 'BUTTON' || tag === 'OPTION') {
+      el.textContent = val;
+    } else if (tag === 'SPAN' && el.className && el.className.indexOf('nav-link') >= 0 && el.querySelector && el.querySelector('svg')) {
+      // Nav span içinde SVG var — text node'u güncelle, SVG'yi koru
+      const svg = el.querySelector('svg');
+      Array.from(el.childNodes).forEach(n => { if (n.nodeType === 3) n.remove(); });
+      el.insertBefore(document.createTextNode(val + ' '), svg);
+    } else {
+      el.innerHTML = val;
+    }
+  });
+  // data-placeholder-{lang} attribute
+  document.querySelectorAll('[data-placeholder-' + lang + ']').forEach(el => {
+    el.placeholder = el.getAttribute('data-placeholder-' + lang);
+  });
+  // HTML lang attr & title
+  const root = document.getElementById('html-root');
+  if (root) root.lang = lang;
+  document.title = lang === 'tr' ? 'Simirna – Ödeme Çözümleri Teknolojileri' : 'Simirna – Payment Solutions Technology';
+  // Lang buton aktiflik (masaüstü + mobil menüdeki tüm kopyalar)
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  applyLang(lang);
+  localStorage.setItem('simirna-lang', lang);
+}
+
+/* ── Router ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(initFadeUps, 100);
+  }
+  closeMobileMenu();
+}
+
+/* ── Mobile menu ── */
+function toggleMobileMenu() {
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('mobileMenu');
+  if (!burger || !menu) return;
+  const isOpen = menu.classList.toggle('open');
+  burger.classList.toggle('open', isOpen);
+  burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('mobileMenu');
+  if (!burger || !menu || !menu.classList.contains('open')) return;
+  menu.classList.remove('open');
+  burger.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+/* ── FAQ ── */
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── Scroll animations ── */
+function initFadeUps() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => obs.observe(el));
+}
+initFadeUps();
+
+/* ── Navbar scroll shadow ── */
+window.addEventListener('scroll', () => {
+  const nb = document.getElementById('navbar');
+  if (nb) nb.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── Init ── */
+if (currentLang === 'en') setLang('en');
+</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simirna Technology — Marka & Logo Kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A2540;--blue:#0066FF;--bright:#3D8BFF;
+    --paper:#EEF1F5;--card:#FFFFFF;--line:#DCE2EA;--mute:#7B8794;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:var(--paper);}
+  body{font-family:'Manrope',system-ui,sans-serif;color:var(--navy);
+    -webkit-font-smoothing:antialiased;padding:0 0 110px;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 40px;}
+
+  /* cover */
+  .cover{background:var(--navy);color:#fff;padding:80px 0 70px;margin-bottom:64px;}
+  .cover .wrap{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+  .cover .lockup-hero{display:flex;align-items:center;gap:16px;}
+  .cover .meta{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:#7E97B6;line-height:2;text-align:right;}
+
+  h2{font-size:13px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;
+    letter-spacing:.2em;color:var(--mute);margin-bottom:22px;display:flex;align-items:center;gap:12px;font-weight:500;}
+  h2 .n{color:#fff;background:var(--navy);border-radius:6px;padding:4px 9px;font-size:11px;letter-spacing:.05em;}
+  section{margin-bottom:72px;}
+  .desc{font-size:15px;line-height:1.7;color:#3a4756;max-width:680px;margin-bottom:28px;}
+  .desc b{font-weight:700;}
+
+  /* lockups */
+  .lock{display:flex;align-items:center;gap:14px;}
+  .lock .ic{flex:none;display:flex;align-items:center;}
+  .lock .ic svg{display:block;}
+  .lock.stack{flex-direction:column;gap:14px;}
+  .wm{line-height:1;}
+  .wm .name{font-weight:600;letter-spacing:-.015em;white-space:nowrap;}
+  .wm .name .s{font-weight:800;}
+  .wm .tech{font-family:'JetBrains Mono',monospace;font-weight:500;text-transform:uppercase;
+    white-space:nowrap;display:inline-block;}
+  .on-light .s{color:var(--blue);} .on-light .r{color:var(--navy);} .on-light .tech{color:#5A6B7B;}
+  .on-dark .s{color:var(--bright);} .on-dark .r{color:#fff;} .on-dark .tech{color:#8AA2BE;}
+
+  .hero-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+    padding:70px;display:flex;align-items:center;justify-content:center;min-height:280px;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .panel{border:1px solid var(--line);border-radius:18px;min-height:230px;display:flex;
+    align-items:center;justify-content:center;padding:48px;position:relative;background:var(--card);}
+  .panel.dark{background:var(--navy);border-color:#16314f;}
+  .panel .tag{position:absolute;left:18px;bottom:14px;font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
+  .panel.dark .tag{color:#6F86A6;}
+
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .sw{border:1px solid var(--line);border-radius:16px;aspect-ratio:1/1;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:22px;background:var(--card);}
+  .sw.dark{background:var(--navy);border-color:#16314f;}
+  .sw svg{display:block;height:88px;}
+  .sw .cap{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--mute);text-align:center;}
+  .sw.dark .cap{color:#6F86A6;}
+
+  /* clear space / min size */
+  .util{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;}
+  .uframe{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:40px;position:relative;}
+  .uframe h3{font-size:14px;font-weight:700;margin-bottom:6px;}
+  .uframe p{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mute);line-height:1.7;}
+  .clearbox{margin:26px auto 8px;position:relative;width:max-content;}
+  .clearbox .pad{position:absolute;inset:-34px;border:1px dashed #B9C6D6;border-radius:6px;}
+  .minrow{display:flex;align-items:flex-end;gap:34px;justify-content:center;margin:24px 0 6px;}
+  .minrow .item{text-align:center;}
+  .minrow .item .lab{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mute);margin-top:10px;}
+
+  /* color */
+  .palette{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .pcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);display:flex;}
+  .pcard .chip{width:130px;flex:none;}
+  .pcard .info{padding:20px 22px;}
+  .pcard .info .nm{font-weight:700;font-size:16px;}
+  .pcard .info .row{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);margin-top:8px;line-height:1.7;}
+  .pcard .info .row b{color:var(--navy);font-weight:500;}
+
+  /* type */
+  .type{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .tcard{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:30px 32px;}
+  .tcard .fam{font-size:30px;font-weight:800;margin-bottom:4px;}
+  .tcard .fam.mono{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:500;}
+  .tcard .use{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px;}
+  .tcard .glyph{font-size:15px;color:#3a4756;line-height:1.8;}
+  .tcard .w{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);margin-top:14px;}
+
+  /* misuse */
+  .dont{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .dcard{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;}
+  .dcard .vis{height:150px;display:flex;align-items:center;justify-content:center;padding:24px;border-bottom:1px solid var(--line);position:relative;}
+  .dcard .vis svg,.dcard .vis .m{display:block;}
+  .dcard .x{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;
+    background:#E5484D;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+  .dcard .txt{padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mute);line-height:1.6;}
+
+  /* assets index */
+  .files{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;}
+  .files .fr{display:grid;grid-template-columns:1fr 2fr;gap:20px;padding:15px 22px;border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+  .files .fr:last-child{border-bottom:none;}
+  .files .fr .p{color:var(--navy);font-weight:500;} .files .fr .d{color:var(--mute);}
+  .files .fr.head{background:#F6F8FA;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;font-size:10px;}
+
+  @media print{
+    body{padding:0;} .cover{margin-bottom:40px;} section{margin-bottom:40px;break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="cover">
+    <div class="wrap">
+      <div class="lockup-hero">
+        <span class="ic" data-mark="reversed" style="display:flex"></span>
+        <span class="wm on-dark"><div class="name" style="font-size:46px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:13px;margin-top:11px">Technology</div></span>
+      </div>
+      <div class="meta">Marka &amp; Logo Kılavuzu<br>v1.0 · 2026<br>FinTech / Ödeme Çözümleri</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- PRIMARY -->
+    <section>
+      <h2><span class="n">01</span> Birincil Logo</h2>
+      <p class="desc">Birincil logo <b>mühür simgesi</b> (çift altıgen içinde İzmir Saat Kulesi) ile
+        <b>çift tonlu wordmark</b>'tan oluşur: <b>Simi</b> mavi, <b>rna</b> lacivert; altta
+        TECHNOLOGY, Simirna genişliğine hizalı. Açık zemin ana kullanımdır.</p>
+      <div class="hero-card">
+        <div class="lock on-light">
+          <span class="ic" data-mark="light"></span>
+          <span class="wm"><div class="name" style="font-size:58px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:15px;margin-top:13px">Technology</div></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VARIATIONS -->
+    <section>
+      <h2><span class="n">02</span> Kilit Varyasyonları</h2>
+      <p class="desc">Yatay birincil kilit; dikey kilit dar alanlar için; ters (koyu zemin) versiyon.
+        Her kullanım için doğru dosya pakette mevcuttur.</p>
+      <div class="twocol" style="margin-bottom:20px">
+        <div class="panel">
+          <div class="lock on-light">
+            <span class="ic" data-mark="light"></span>
+            <span class="wm"><div class="name" style="font-size:40px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:11px;margin-top:10px">Technology</div></span>
+          </div>
+          <span class="tag">yatay · açık</span>
+        </div>
+        <div class="panel dark">
+          <div class="lock on-dark">
+            <span class="ic" data-mark="reversed"></span>
+            <span class="wm"><div class="name" style="font-size:40px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:11px;margin-top:10px">Technology</div></span>
+          </div>
+          <span class="tag">yatay · koyu (ters)</span>
+        </div>
+      </div>
+      <div class="twocol">
+        <div class="panel">
+          <div class="lock stack on-light">
+            <span class="ic" data-mark="light" data-size="84"></span>
+            <span class="wm" style="text-align:center"><div class="name" style="font-size:34px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:10px;margin-top:9px">Technology</div></span>
+          </div>
+          <span class="tag">dikey · açık</span>
+        </div>
+        <div class="panel dark">
+          <div class="lock stack on-dark">
+            <span class="ic" data-mark="reversed" data-size="84"></span>
+            <span class="wm" style="text-align:center"><div class="name" style="font-size:34px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:10px;margin-top:9px">Technology</div></span>
+          </div>
+          <span class="tag">dikey · koyu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARK & MONO -->
+    <section>
+      <h2><span class="n">03</span> Simge &amp; Tek Renk</h2>
+      <p class="desc">Simge tek başına app ikon, favicon, sosyal avatar olarak kullanılır.
+        Tek renk (lacivert / beyaz) versiyonlar faks, gravür, tek renk baskı içindir.</p>
+      <div class="grid4">
+        <div class="sw"><span data-mark="light"></span><span class="cap">birincil</span></div>
+        <div class="sw dark"><span data-mark="reversed"></span><span class="cap">ters</span></div>
+        <div class="sw"><span data-mark="mononavy"></span><span class="cap">tek renk · lacivert</span></div>
+        <div class="sw dark"><span data-mark="monowhite"></span><span class="cap">tek renk · beyaz</span></div>
+      </div>
+    </section>
+
+    <!-- CLEAR SPACE & MIN SIZE -->
+    <section>
+      <h2><span class="n">04</span> Net Alan &amp; Minimum Boyut</h2>
+      <div class="util">
+        <div class="uframe">
+          <h3>Net alan</h3>
+          <p>Logonun çevresinde, simge yarıçapı (<b>x</b>) kadar boşluk bırakın. Bu alana başka
+            grafik, metin veya kenar girmemeli.</p>
+          <div class="clearbox">
+            <span class="pad"></span>
+            <div class="lock on-light">
+              <span class="ic" data-mark="light" data-size="60"></span>
+              <span class="wm"><div class="name" style="font-size:30px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:8.5px;margin-top:8px">Technology</div></span>
+            </div>
+          </div>
+        </div>
+        <div class="uframe">
+          <h3>Minimum boyut</h3>
+          <p>Okunabilirlik için bu eşiklerin altına inmeyin.</p>
+          <div class="minrow">
+            <div class="item"><span class="ic" data-mark="light" data-size="48"></span><div class="lab">simge · 24px ↓ kullanmayın</div></div>
+          </div>
+          <div class="minrow" style="margin-top:8px">
+            <div class="item">
+              <div class="lock on-light"><span class="ic" data-mark="light" data-size="30"></span><span class="wm"><div class="name" style="font-size:15px"><span class="s">Simi</span><span class="r">rna</span></div><div class="tech" style="font-size:5px;margin-top:4px">Technology</div></span></div>
+              <div class="lab">yatay kilit · min. genişlik 120px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLOR -->
+    <section>
+      <h2><span class="n">05</span> Renk</h2>
+      <div class="palette">
+        <div class="pcard"><div class="chip" style="background:#0A2540"></div><div class="info">
+          <div class="nm">Lacivert</div>
+          <div class="row"><b>HEX</b> #0A2540<br><b>RGB</b> 10 · 37 · 64<br><b>CMYK</b> 85 · 42 · 0 · 75</div></div></div>
+        <div class="pcard"><div class="chip" style="background:#0066FF"></div><div class="info">
+          <div class="nm">Mavi · Simi</div>
+          <div class="row"><b>HEX</b> #0066FF<br><b>RGB</b> 0 · 102 · 255<br><b>CMYK</b> 100 · 60 · 0 · 0</div></div></div>
+        <div class="pcard"><div class="chip" style="background:#3D8BFF"></div><div class="info">
+          <div class="nm">Mavi · parlak <span style="font-weight:400;color:#7B8794">(destek)</span></div>
+          <div class="row"><b>HEX</b> #3D8BFF<br><b>RGB</b> 61 · 139 · 255<br>Koyu zeminde iç altıgen / vurgu</div></div></div>
+        <div class="pcard"><div class="chip" style="background:#EEF1F5;border-right:1px solid var(--line)"></div><div class="info">
+          <div class="nm">Nötr · kağıt <span style="font-weight:400;color:#7B8794">(zemin)</span></div>
+          <div class="row"><b>HEX</b> #EEF1F5<br><b>RGB</b> 238 · 241 · 245<br>Açık zemin / arayüz tabanı</div></div></div>
+      </div>
+    </section>
+
+    <!-- TYPE -->
+    <section>
+      <h2><span class="n">06</span> Tipografi</h2>
+      <div class="type">
+        <div class="tcard">
+          <div class="fam">Manrope</div>
+          <div class="use">Wordmark · başlıklar</div>
+          <div class="glyph">ABCDEFGHIJKLM<br>abcdefghijklm 0123456789</div>
+          <div class="w">Simi → ExtraBold 800 · rna → SemiBold 600 · Google Fonts</div>
+        </div>
+        <div class="tcard">
+          <div class="fam mono">JetBrains Mono</div>
+          <div class="use">"Technology" · teknik etiket</div>
+          <div class="glyph" style="font-family:'JetBrains Mono',monospace;font-size:13px">ABCDEFGHIJKLM<br>abcdefghijklm 0123456789</div>
+          <div class="w">Medium 500 · harf aralığı Simirna genişliğine açılır · Google Fonts</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISUSE -->
+    <section>
+      <h2><span class="n">07</span> Hatalı Kullanım</h2>
+      <div class="dont">
+        <div class="dcard"><div class="vis"><span class="x">✕</span><div style="transform:rotate(18deg)"><span class="ic" data-mark="light" data-size="56" style="display:block"></span></div></div><div class="txt">Döndürmeyin, eğmeyin.</div></div>
+        <div class="dcard"><div class="vis"><span class="x">✕</span><div class="lock on-light"><span class="ic" data-mark="light" data-size="40" style="transform:scaleX(1.6)"></span></div></div><div class="txt">Oranını bozmayın, germeyin.</div></div>
+        <div class="dcard"><div class="vis" style="background:#C23B22"><span class="x">✕</span><div class="lock on-light"><span class="ic" data-mark="light" data-size="44"></span></div></div><div class="txt">Marka dışı zemin renkleri kullanmayın.</div></div>
+        <div class="dcard"><div class="vis"><span class="x">✕</span><div class="wm on-light"><div class="name" style="font-size:26px;font-weight:600"><span style="color:#1FA363;font-weight:800">Simi</span><span class="r">rna</span></div></div></div><div class="txt">Marka renklerini değiştirmeyin.</div></div>
+        <div class="dcard"><div class="vis"><span class="x">✕</span><div class="lock on-light"><span class="ic" data-mark="light" data-size="44"></span></div></div><div class="txt" style="color:#E5484D">Çift altıgeni / saat kulesini ayırıp tek tek kullanmayın.</div></div>
+        <div class="dcard"><div class="vis"><span class="x">✕</span><div class="lock on-light" style="filter:drop-shadow(3px 4px 3px rgba(0,0,0,.4))"><span class="ic" data-mark="light" data-size="44"></span></div></div><div class="txt">Gölge / efekt eklemeyin.</div></div>
+      </div>
+    </section>
+
+    <!-- FILES -->
+    <section>
+      <h2><span class="n">08</span> Paket İçeriği</h2>
+      <p class="desc">Web ve baskı için ölçeklenebilir <b>SVG</b> (ana format) ile hazır <b>PNG</b>'ler.
+        Yatay logo SVG'leri wordmark fontunu <b>@import</b> ile çağırır; dosyayı doğrudan tarayıcıda
+        açtığınızda Manrope yüklenir. <b>Önemli:</b> SVG bir <b>&lt;img&gt;</b> olarak gömülürse veya
+        çevrimdışı/e-postada kullanılırsa font yüklenmez — bu durumlar için <b>PNG</b> kullanın.
+        Tasarımcı: nihai master vektörde metni <b>outline</b>'a çevirsin (font bağımsız, her yerde birebir).</p>
+      <div class="files">
+        <div class="fr head"><span>dosya</span><span>kullanım</span></div>
+        <div class="fr"><span class="p">svg/simirna-icon.svg</span><span class="d">birincil simge — web, vektör (şeffaf)</span></div>
+        <div class="fr"><span class="p">svg/simirna-icon-reversed.svg</span><span class="d">koyu zemin için ters simge</span></div>
+        <div class="fr"><span class="p">svg/simirna-icon-mono-navy / -white.svg</span><span class="d">tek renk baskı</span></div>
+        <div class="fr"><span class="p">svg/simirna-logo-horizontal.svg</span><span class="d">yatay kilit — site başlığı (şeffaf)</span></div>
+        <div class="fr"><span class="p">svg/simirna-logo-horizontal-dark.svg</span><span class="d">yatay kilit — koyu zemin</span></div>
+        <div class="fr"><span class="p">svg/simirna-appicon.svg</span><span class="d">uygulama karosu (lacivert)</span></div>
+        <div class="fr"><span class="p">png/simirna-logo-horizontal-2x.png</span><span class="d">e-posta, doküman, sunum (açık + koyu)</span></div>
+        <div class="fr"><span class="p">png/simirna-icon-512 / 1024.png</span><span class="d">sosyal avatar, yüksek çözünürlük</span></div>
+        <div class="fr"><span class="p">png/simirna-appicon-180.png</span><span class="d">apple-touch-icon</span></div>
+        <div class="fr"><span class="p">png/simirna-favicon-32 / 64.png</span><span class="d">tarayıcı favicon</span></div>
+        <div class="fr"><span class="p">Email Signature.html</span><span class="d">kopyala-yapıştır e-posta imzası</span></div>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+(function(){
+  var NAVY="#0A2540",BLUE="#0066FF",BRIGHT="#3D8BFF",WHITE="#FFFFFF";
+  function towerLine(color,accent){
+    return '<g fill="none" stroke="'+color+'" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round">'+
+      '<circle cx="50" cy="7" r="1.5" fill="'+accent+'" stroke="none"/>'+
+      '<line x1="50" y1="9" x2="50" y2="12.5"/>'+
+      '<path d="M43,20 Q50,10 57,20"/>'+
+      '<line x1="42.5" y1="20" x2="57.5" y2="20"/>'+
+      '<rect x="43" y="23.5" width="14" height="18.5" rx="1.2"/>'+
+      '<circle cx="50" cy="32.7" r="4.6" stroke="'+accent+'"/>'+
+      '<line x1="50" y1="32.7" x2="50" y2="29" stroke="'+accent+'"/>'+
+      '<line x1="50" y1="32.7" x2="52.6" y2="33.9" stroke="'+accent+'"/>'+
+      '<polygon points="44,42 56,42 60,79 40,79"/>'+
+      '<line x1="42.6" y1="55" x2="57.4" y2="55"/>'+
+      '<line x1="41.4" y1="67" x2="58.6" y2="67"/>'+
+      '<rect x="36" y="79" width="28" height="5"/>'+
+      '<rect x="31.5" y="84" width="37" height="6" rx="1.2"/></g>';
+  }
+  function hexPts(r){var p=[];for(var i=0;i<6;i++){var a=(-90+i*60)*Math.PI/180;p.push((50+r*Math.cos(a)).toFixed(2)+","+(50+r*Math.sin(a)).toFixed(2));}return p.join(" ");}
+  function icon(rm,ri,tw,clk){
+    return '<polygon points="'+hexPts(46.5)+'" fill="none" stroke="'+rm+'" stroke-width="2.4" stroke-linejoin="round"/>'+
+           '<polygon points="'+hexPts(40.5)+'" fill="none" stroke="'+ri+'" stroke-width="1" opacity="0.7" stroke-linejoin="round"/>'+
+           '<g transform="translate(50,50) scale(0.62) translate(-50,-50)">'+towerLine(tw,clk)+'</g>';
+  }
+  var marks={
+    light:icon(NAVY,BLUE,NAVY,BLUE),
+    reversed:icon(WHITE,BRIGHT,WHITE,BRIGHT),
+    mononavy:icon(NAVY,NAVY,NAVY,NAVY),
+    monowhite:icon(WHITE,WHITE,WHITE,WHITE)
+  };
+  document.querySelectorAll('[data-mark]').forEach(function(el){
+    var k=el.getAttribute('data-mark'),s=el.getAttribute('data-size');
+    var size=s?parseInt(s):null;
+    el.innerHTML='<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;'+(size?('height:'+size+'px;width:'+size+'px'):'height:100%;width:auto')+'">'+marks[k]+'</svg>';
+  });
+
+  function fit(){
+    // tower height = wordmark block height for inline horizontal lockups
+    document.querySelectorAll('.lock').forEach(function(lock){
+      if(lock.classList.contains('stack'))return;
+      var holder=lock.querySelector('.ic[data-mark]'); var svg=holder&&holder.querySelector('svg'); var wm=lock.querySelector('.wm');
+      if(svg&&wm&&!holder.getAttribute('data-size')){var h=wm.getBoundingClientRect().height; svg.style.height=h+'px';svg.style.width=h+'px';}
+    });
+    // TECHNOLOGY width = Simirna width
+    document.querySelectorAll('.wm').forEach(function(wm){
+      var name=wm.querySelector('.name'),tech=wm.querySelector('.tech');
+      if(!name||!tech)return;
+      var target=name.getBoundingClientRect().width;
+      tech.style.letterSpacing='0px';tech.style.marginRight='0px';
+      var base=tech.getBoundingClientRect().width, n=tech.textContent.trim().length;
+      var ls=(target-base)/(n-1); if(ls<0)ls=0;
+      tech.style.letterSpacing=ls.toFixed(2)+'px';tech.style.marginRight=(-ls).toFixed(2)+'px';
+    });
+  }
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+  window.addEventListener('load',fit);setTimeout(fit,400);window.__fit=fit;
+})();
+</script>
+</body>
+</html>

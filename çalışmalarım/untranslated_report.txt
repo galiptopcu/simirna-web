@@ -1,0 +1,365 @@
+6	[meta>meta>title]	Simirna – Ödeme Çözümleri Teknolojileri
+11	[link>link>style]	/* ══════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════ */
+:root {
+  --blu
+794	[div>div>p]	Kart üretiminden ödeme çözümüne uzanan, tamamen entegre uçtan uca kapalı devre ödeme sistemi. Kendi marka kartınızı oluş
+795	[div>div>div]	Detayları İncele
+801	[div>div>p]	POS ve ÖKC POS uygulama geliştirme framework'ü. Farklı marka cihazlarda tek kod tabanıyla geliştirme, %30–50 efor tasarr
+802	[div>div>div]	Detayları İncele
+808	[div>div>p]	Çip personalizasyonu ve kart üretim uygulaması. ISO standartlarına uygun, güvenli ve ölçeklenebilir kart yaşam döngüsü y
+809	[div>div>div]	Detayları İncele
+826	[div>div>div]	KampüsKart
+827	[div>div>p]	Üniversiteler ve kampüsler için özel kapalı devre ödeme çözümü. Yemekhane, kütüphane ve spor tesisi entegrasyonu.
+831	[div>div>div]	Yemek Kartı
+832	[div>div>p]	Yemek kartı şirketleri için uçtan uca ödeme altyapısı. Hızlı onboarding ve gerçek zamanlı bakiye yönetimi.
+836	[div>div>div]	Sadakat Kartı
+837	[div>div>p]	Sadakat programları ile ödeme entegrasyonu. Puan kazanma, harcama ve kampanya yönetimini tek platformda birleştirin.
+841	[div>div>div]	Hediye Kartı
+842	[div>div>p]	Markanıza özel fiziksel ve dijital hediye kartı programı. Kasadan, POS'tan veya mobil uygulamadan kolay kullanım.
+858	[div>div>div]	İhtiyaç Analizi
+859	[div>div>p]	Sektörünüze ve iş modelinize özgü ödeme ihtiyaçlarınızı analiz ediyoruz.
+863	[div>div>div]	Çözüm Tasarımı
+864	[div>div>p]	Özelleştirilmiş ödeme mimarisini ve entegrasyon planını hazırlıyoruz.
+868	[div>div>div]	Hızlı Kurulum
+869	[div>div>p]	Uzman ekibimizle sistemleri minimal kesinti süresiyle devreye alıyoruz.
+873	[div>div>div]	Sürekli Destek
+874	[div>div>p]	7/24 teknik destek ve düzenli güncellemelerle sisteminizi her zaman güncel tutuyoruz.
+886	[div>div>p]	Türkiye'nin önde gelen kurumlarıyla hayata geçirilen başarılı projeler.
+943	[div>div>div]	simiPayment, perakende, gıda & içecek, sağlık, eğitim, otomotiv ve bankacılık başta olmak üzere kapalı devre ödeme siste
+948	[div>div>div]	Kapalı devre ödeme sistemi, belirli bir ağ içinde geçerli olan, yalnızca anlaşmalı noktalarda kullanılabilen ödeme altya
+952	[div>div>div]	Standart simiPOS entegrasyonu 2–4 hafta, tam kapalı devre ödeme sistemi kurulumu ise 8–16 hafta arasında tamamlanmaktadı
+956	[div>div>div]	Evet. Tüm ürünlerimiz için 7/24 teknik destek sunmaktayız. SLA güvenceli yanıt süreleri ve proaktif sistem izleme ile si
+967	[div>div>p]	İletişim
+968	[div>h2>br]	Hayata Geçirelim
+969	[div>h2>p]	Ödeme teknolojileri alanındaki ihtiyaçlarınızı konuşmak için formu doldurun. Uzman ekibimiz en kısa sürede size dönecekt
+973	[div>div>div]	Fırat Teknokent, Çaydaçıra Mah. Prof. Dr. Nuri Orhan Blv. No: 9 İç Kapı No: B05 Merkez / Elazığ
+987	[div>div>label]	Şirket
+990	[div>div>label]	Mesajınız
+993	[div>div>button]	Mesaj Gönder →
+1012	[div>div>span]	Ürünler
+1016	[div>div>div]	💳 Kapalı Devre Ödeme Çözümü
+1018	[div>div>p]	Kart Üretiminden Ödeme Çözümüne, Uçtan Uca Kapalı Devre Ödeme Çözümü
+1019	[div>div>p]	simiPayment, kapalı devre ödeme çözümüdür. Kendi marka kartınızı oluşturmanızı, üye iş yerlerinizi yönetmenizi ve çipli,
+1021	[div>div>button]	İletişime Geçin →
+1022	[div>div>button]	Ana Sayfaya Dön
+1027	[div>div>div]	🏗️ Öne Çıkan Modüller
+1029	[div>div>div]	Üye İş Yeri Yönetimi
+1030	[div>div>div]	Müşteri, Sözleşme ve Kart Yönetimi
+1031	[div>div>div]	Kart Üretim Modülü
+1032	[div>div>div]	Ödeme Modülü (Çipli, Temassız, QR)
+1034	[div>div>div]	Kart Kullanıcı Yönetimi
+1047	[div>div>div]	🎯 Kimler İçin Uygun?
+1049	[div>ul>li]	Yemek kartı şirketleri
+1050	[div>ul>li]	Üye iş yeri yönetmek isteyen şirketler
+1051	[div>ul>li]	Kendi marka kartını oluşturmak ve ödeme almak isteyen şirketler
+1052	[div>ul>li]	Sadakat uygulaması ile ödeme almak isteyenler
+1053	[div>ul>li]	Alışveriş merkezleri
+1054	[div>ul>li]	Restoran ve Market zincirleri
+1058	[div>div>div]	✨ Platform Faydaları
+1060	[div>ul>li]	Uçtan uca kapalı devre ödeme altyapısı
+1061	[div>ul>li]	Çipli, temassız ve QR ödeme desteği
+1062	[div>ul>li]	Merkezi üye iş yeri ve kart yönetimi
+1064	[div>ul>li]	Kendi marka kartı oluşturma imkânı
+1065	[div>ul>li]	Kapsamlı raporlama ve analitik
+1073	[div>div>div]	Modül Detayları
+1077	[div>div>div]	Üye İş Yeri Yönetimi
+1079	[div>ul>li]	İş yeri kayıt ve aktivasyonu
+1080	[div>ul>li]	Sözleşme ve komisyon yönetimi
+1081	[div>ul>li]	Anlık işlem takibi
+1082	[div>ul>li]	Toplu mutabakat raporları
+1087	[div>div>div]	Ödeme Modülü
+1089	[div>ul>li]	Çipli kart ile POS ödemesi
+1090	[div>ul>li]	Temassız ödeme (NFC)
+1091	[div>ul>li]	QR kod ile ödeme
+1092	[div>ul>li]	Mobil uygulama üzerinden QR ile ödeme
+1099	[div>ul>li]	Gerçek zamanlı dashboard
+1100	[div>ul>li]	İşlem bazlı raporlar
+1101	[div>ul>li]	Kullanıcı davranış analitiği
+1102	[div>ul>li]	Özelleştirilebilir export
+1111	[div>div>h3]	simiPayment hakkında detaylı bilgi alın
+1112	[div>div>p]	Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.
+1114	[div>div>button]	İletişime Geçin →
+1131	[div>div>span]	Ürünler
+1135	[div>div>div]	🖥️ POS Uygulama Geliştirme Platformu
+1137	[div>div>p]	POS ve ÖKC Cihazları İçin Ortak Uygulama Geliştirme Platformu
+1138	[div>div>p]	"POS/ÖKC'ler için uygulama geliştirirken cihaz altyapısına değil, ihtiyaç duyulan iş kurallarına odaklanın. Farklı marka
+1140	[div>div>button]	İletişime Geçin →
+1141	[div>div>button]	Ana Sayfaya Dön
+1150	[div>div>div]	Yeni başlayan geliştiriciler
+1154	[div>div>div]	Uzman geliştiriciler
+1158	[div>div>div]	Test uzmanları
+1170	[div>div>div]	Sektördeki Problemler
+1172	[div>div>div]	Uygulamanın her marka ve model POS/ÖKC için yeniden yazılması gerekiyor.
+1173	[div>div>div]	POS/ÖKC geliştirmelerinde bilgisayar ortamında debug işlemi yapılamıyor, bu da geliştirme süresini uzatıyor.
+1174	[div>div>div]	POS/ÖKC uygulamaları için unit test yazılamadığından testler tamamen manuel ve kişiye bağımlı yapılıyor.
+1175	[div>div>div]	Uygulama geliştiriciler her marka/model POS/ÖKC'nin SDK'sını ayrı ayrı öğrenmek durumunda kalıyor.
+1181	[div>div>div]	Platform Modülleri
+1185	[div>div>div]	İş Gereksinimi Katmanı
+1187	[div>ul>li]	Kurum ihtiyaçları için uygulama kodları
+1188	[div>ul>li]	İş kurallarını bir defa yaz, her cihazda çalıştır
+1193	[div>div>div]	Unit Test Modülü
+1195	[div>ul>li]	Tüm kod parçalarının otomatik testi
+1196	[div>ul>li]	Test süresini kısaltma
+1197	[div>ul>li]	Hata oranını düşürme
+1202	[div>div>div]	Log Yönetimi
+1204	[div>ul>li]	Bilgi, Uyarı, Alarm seviyelerinde mesaj takibi
+1210	[div>div>div]	Cihaz Yönetimi
+1212	[div>ul>li]	Temaslı/Temassız okuyucu yönetimi
+1213	[div>ul>li]	İletişim (GSM/ETH)
+1214	[div>ul>li]	Yazıcı ve dosya yönetimi
+1219	[div>div>div]	Konsol & Ekran Yönetimi
+1221	[div>ul>li]	Kullanıcı arayüz yönetimi
+1222	[div>ul>li]	Konsol yönetimi
+1227	[div>div>div]	Veritabanı & Güvenlik
+1229	[div>ul>li]	Veritabanı yönetimi
+1230	[div>ul>li]	Güvenlik anahtar yönetimi
+1241	[div>div>div]	İş Katmanı
+1243	[div>div>span]	İş Gereksinimi
+1245	[div>div>span]	Log Yönetimi
+1249	[div>div>div]	Donanım Bağımsız Ortak Katman
+1251	[div>div>span]	Konsol Yönetimi
+1252	[div>div>span]	Veritabanı Yönetimi
+1253	[div>div>span]	Ekran Yönetimi
+1254	[div>div>span]	Güvenlik Anahtar Yönetimi
+1258	[div>div>div]	Donanım Soyutlama Katmanı (HAL)
+1260	[div>div>span]	Temaslı/Temassız Okuyucu
+1261	[div>div>span]	İletişim (GSM/ETH)
+1262	[div>div>span]	Dosya Yönetimi
+1263	[div>div>span]	Yazıcı Yönetimi
+1271	[div>div>div]	Rekabet Avantajı
+1275	[thead>tr>th]	Özellik
+1277	[thead>tr>th]	Diğer Üreticiler
+1281	[tbody>tr>td]	Farklı Marka/Model Desteği
+1281	[tr>td>span]	✗ Hayır
+1282	[tbody>tr>td]	Bilgisayar Ortamında Debug
+1282	[tr>td>span]	✗ Hayır
+1283	[tbody>tr>td]	Unit Test Desteği
+1283	[tr>td>span]	✗ Hayır
+1293	[div>div>div]	🎯 Kimler İçin Uygun?
+1295	[div>ul>li]	POS/ÖKC üretici firmalar
+1296	[div>ul>li]	Yemek kartı firmaları
+1298	[div>ul>li]	POS/ÖKC kullanan firmalar
+1299	[div>ul>li]	POS/ÖKC uygulaması geliştiren yazılım evleri
+1303	[div>div>div]	✨ Platform Faydaları
+1305	[div>ul>li]	Hızlı uygulama geliştirme
+1306	[div>ul>li]	Bilgisayar ortamında debug ile hızlı hata ayıklama
+1308	[div>ul>li]	Mevcut uygulamanın yeni çalışanlar tarafından hızlı öğrenilmesi
+1309	[div>ul>li]	Developer'a olan bağımlılığın azaltılması
+1310	[div>ul>li]	Cihaz markasından bağımsız geliştirme tecrübesi
+1318	[div>div>h3]	simiPOS hakkında detaylı bilgi alın
+1319	[div>div>p]	Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.
+1321	[div>div>button]	İletişime Geçin →
+1337	[div>div>span]	Ürünler
+1341	[div>div>div]	🪪 Kart Üretim Uygulaması
+1343	[div>div>p]	Çip Personalizasyon ve Kart Üretim Uygulaması
+1344	[div>div>p]	simiCard, kart üretim süreçlerinde çip personalizasyonu ve kart yönetimini sağlayan kapsamlı bir uygulamadır. ISO standa
+1346	[div>div>button]	İletişime Geçin →
+1347	[div>div>button]	Ana Sayfaya Dön
+1352	[div>div>div]	🏗️ Modüller
+1354	[div>div>div]	Çip Personalizasyon
+1355	[div>div>div]	Kart Tasarım ve Üretim
+1356	[div>div>div]	Kart Yaşam Döngüsü Yönetimi
+1357	[div>div>div]	Güvenlik ve Şifreleme
+1369	[div>div>div]	Çip Personalizasyon
+1371	[div>ul>li]	EMV standartlarına uygun çip yazma
+1372	[div>ul>li]	Güvenli key injection
+1373	[div>ul>li]	Toplu personalizasyon desteği
+1374	[div>ul>li]	Hata loglama ve izleme
+1379	[div>div>div]	Kart Tasarım & Üretim
+1381	[div>ul>li]	Esnek kart tasarım şablonları
+1382	[div>ul>li]	Toplu üretim yönetimi
+1383	[div>ul>li]	Kart baskı entegrasyonu
+1384	[div>ul>li]	Kalite kontrol süreçleri
+1389	[div>div>div]	Yaşam Döngüsü Yönetimi
+1391	[div>ul>li]	Kart aktivasyon ve deaktivasyonu
+1392	[div>ul>li]	PIN yönetimi
+1393	[div>ul>li]	Kart yenileme ve iptal süreçleri
+1394	[div>ul>li]	Arşivleme ve raporlama
+1403	[div>div>div]	🎯 Kimler İçin Uygun?
+1405	[div>ul>li]	Kart üretimi yapan şirketler
+1406	[div>ul>li]	Kendi kartını basmak isteyen kuruluşlar
+1407	[div>ul>li]	Bankalar ve fintech şirketleri
+1408	[div>ul>li]	Kapalı devre ödeme sistemi kullanan kurumlar
+1412	[div>div>div]	✨ Platform Faydaları
+1414	[div>ul>li]	Uçtan uca kart üretim yönetimi
+1415	[div>ul>li]	Güvenli çip personalizasyonu
+1416	[div>ul>li]	Esnek kart tasarım seçenekleri
+1417	[div>ul>li]	Toplu üretim desteği
+1418	[div>ul>li]	ISO/EMV standartlarına tam uyum
+1426	[div>div>h3]	simiCard hakkında detaylı bilgi alın
+1427	[div>div>p]	Uzman ekibimizle iletişime geçin ve size özel çözümü keşfedin.
+1429	[div>div>button]	İletişime Geçin →
+1444	[div>div>span]	Çözümler
+1446	[div>div>span]	KampüsKart
+1448	[div>div>div]	🎓 Eğitim & Kampüs Çözümü
+1449	[div>div>h1]	KampüsKart
+1450	[div>div>p]	Üniversiteler ve Kampüsler İçin Kapalı Devre Ödeme Çözümü
+1451	[div>div>p]	KampüsKart, üniversiteler ve kampüsler için özel olarak tasarlanmış kapalı devre ödeme çözümüdür. Öğrenci ve personel ka
+1453	[div>div>button]	İletişime Geçin →
+1454	[div>div>button]	Ana Sayfaya Dön
+1460	[div>div>div]	Öğrenci & Personel Kart Yönetimi
+1461	[div>div>div]	Öğrenci, akademisyen ve idari personel için ayrı yetki seviyeleri ve bakiye havuzları.
+1466	[div>div>div]	Hızlı geçiş, günlük limit tanımlama ve öğün bazlı kısıtlama desteği.
+1470	[div>div>div]	Kütüphane Entegrasyonu
+1471	[div>div>div]	Kitap ödünç alma, gecikme ücreti ve kaynak rezervasyonu tek platformda.
+1475	[div>div>div]	Mobil Uygulama Desteği
+1476	[div>div>div]	Bakiye yükleme, işlem geçmişi ve QR ödeme özellikli mobil uygulama.
+1480	[div>div>div]	Merkezi Yönetim Paneli
+1481	[div>div>div]	Tüm kampüs noktalarını tek panelden izleyin, raporlayın ve yönetin.
+1485	[div>div>div]	QR & Temassız Ödeme
+1486	[div>div>div]	Çipli kart, QR kod veya NFC ile hızlı ve güvenli ödeme deneyimi.
+1494	[div>div>div]	Kullanım Alanları
+1496	[div>div>div]	🏛️ Üniversite Kampüsleri
+1497	[div>div>div]	🏫 Özel Okul ve Kolejler
+1498	[div>div>div]	🏢 Büyük Kurumsal Kampüsler
+1505	[div>div>div]	🎯 Kimler İçin Uygun?
+1507	[div>ul>li]	Üniversiteler ve yükseköğretim kurumları
+1508	[div>ul>li]	K-12 okulları ve kolejler
+1509	[div>ul>li]	Büyük kurumsal kampüs alanları
+1510	[div>ul>li]	Kapalı kampüs yönetimi arayan kurumlar
+1514	[div>div>div]	✨ Faydaları
+1516	[div>ul>li]	Kampüs içi tüm ödemeleri tek platformda birleştirme
+1517	[div>ul>li]	Nakit kullanımını minimize etme
+1518	[div>ul>li]	Gerçek zamanlı harcama takibi ve ebeveyn bilgilendirme
+1519	[div>ul>li]	Kampüs güvenliğiyle entegrasyon imkânı
+1520	[div>ul>li]	Toplu bakiye yükleme ve otomatik kesim
+1528	[div>div>h3]	KampüsKart hakkında detaylı bilgi alın
+1529	[div>div>p]	Uzman ekibimizle iletişime geçin ve kampüsünüze özel çözümü keşfedin.
+1531	[div>div>button]	İletişime Geçin →
+1546	[div>div>span]	Çözümler
+1548	[div>div>span]	Yemek Kartı
+1550	[div>div>div]	🍽️ Yemek Kartı Çözümü
+1551	[div>div>h1]	Yemek Kartı
+1552	[div>div>p]	Yemek Kartı Şirketleri İçin Uçtan Uca Ödeme Altyapısı
+1553	[div>div>p]	simiPayment altyapısı üzerine inşa edilmiş Yemek Kartı çözümümüz; kart ihraçından anlaşmalı üye iş yeri yönetimine, POS 
+1555	[div>div>button]	İletişime Geçin →
+1556	[div>div>button]	Ana Sayfaya Dön
+1562	[div>div>div]	Üye İş Yeri Ağı
+1563	[div>div>div]	Restoran, büfe ve gıda noktalarını hızlıca sisteme alın, sözleşme ve komisyon yönetimini otomatikleştirin.
+1567	[div>div>div]	Kart İhraç & Yönetim
+1568	[div>div>div]	Fiziksel kart üretiminden dijital kart ihracına, bakiye yükleme ve PIN yönetimine tam kapsamlı çözüm.
+1572	[div>div>div]	Gerçek Zamanlı Raporlama
+1573	[div>div>div]	İşlem bazlı anlık raporlar, kullanım analitiği ve kurumsal mutabakat ekranları.
+1577	[div>div>div]	POS & ÖKC Entegrasyonu
+1578	[div>div>div]	simiPOS framework'ü ile farklı marka POS cihazlarına hızlı entegrasyon.
+1582	[div>div>div]	Mobil & Dijital Kart
+1583	[div>div>div]	Fiziksel kartın yanı sıra mobil uygulama üzerinden QR ile ödeme imkânı.
+1588	[div>div>div]	Şirketler için toplu çalışan kartı bakiye yükleme, dönemsel limit tanımlama ve otomatik kesim.
+1598	[div>div>div]	🎯 Kimler İçin Uygun?
+1600	[div>ul>li]	Yemek kartı ihraç etmek isteyen şirketler
+1601	[div>ul>li]	Çalışanlarına yemek yardımı sağlayan kurumlar
+1602	[div>ul>li]	Gıda sektörü ödeme çözümü arayışındaki firmalar
+1603	[div>ul>li]	Dijital yemek kartı platformu kurmak isteyenler
+1607	[div>div>div]	✨ Faydaları
+1609	[div>ul>li]	Hızlı onboarding ve kolay entegrasyon
+1610	[div>ul>li]	Mevzuata uygun kart ihraç altyapısı
+1611	[div>ul>li]	Kapsamlı üye iş yeri ağı yönetimi
+1612	[div>ul>li]	Gerçek zamanlı bakiye ve işlem takibi
+1613	[div>ul>li]	Esnek limit ve kısıtlama tanımları
+1621	[div>div>h3]	Yemek Kartı çözümü hakkında bilgi alın
+1622	[div>div>p]	Uzman ekibimizle iletişime geçin, size özel demo planlayalım.
+1624	[div>div>button]	İletişime Geçin →
+1639	[div>div>span]	Çözümler
+1641	[div>div>span]	Sadakat Kartı
+1643	[div>div>div]	⭐ Sadakat & Ödeme Entegrasyonu
+1644	[div>div>h1]	Sadakat Kartı
+1645	[div>div>p]	Sadakat Programları ile Ödeme Entegrasyonu Çözümü
+1646	[div>div>p]	Sadakat programlarınızı ödeme altyapısıyla birleştirin. Puan kazanma, harcama, kampanya yönetimi ve kart ihracını tek bi
+1648	[div>div>button]	İletişime Geçin →
+1649	[div>div>button]	Ana Sayfaya Dön
+1656	[div>div>div]	Her işlemde otomatik puan kazandırın, puanları nakit veya hediyeye dönüştürün.
+1661	[div>div>div]	Hedefli kampanya oluşturma, çift puan günleri, özel segment indirimleri.
+1665	[div>div>div]	Marka Kartı
+1666	[div>div>div]	Kendi markalı sadakat kartını fiziksel veya dijital olarak ihraç edin.
+1671	[div>div>div]	Puan bakiyesi, kampanya bildirimleri ve dijital kart özellikli müşteri uygulaması.
+1675	[div>div>div]	Müşteri Analitiği
+1676	[div>div>div]	RFM analizi, kohort raporları ve müşteri davranış içgörüleri.
+1681	[div>div>div]	Mevcut POS altyapınıza sorunsuz sadakat entegrasyonu, sıfır ek donanım.
+1691	[div>div>div]	🎯 Kimler İçin Uygun?
+1693	[div>ul>li]	Kendi sadakat programını kurmak isteyen perakendeciler
+1694	[div>ul>li]	Mevcut sadakat programına ödeme eklemek isteyenler
+1695	[div>ul>li]	Zincir mağazalar ve franchise yapıları
+1696	[div>ul>li]	Ortak sadakat programı oluşturmak isteyen markalar
+1700	[div>div>div]	✨ Faydaları
+1702	[div>ul>li]	Ödeme ve sadakat altyapısını tek platformda birleştirme
+1703	[div>ul>li]	Müşteri yaşam boyu değerini artırma
+1704	[div>ul>li]	Veri odaklı kampanya yönetimi
+1705	[div>ul>li]	Merkezi müşteri profili ve 360° görünüm
+1706	[div>ul>li]	API ile mevcut CRM sistemlerine entegrasyon
+1714	[div>div>h3]	Sadakat Kartı çözümü hakkında bilgi alın
+1715	[div>div>p]	Uzman ekibimizle iletişime geçin, sadakat programınızı birlikte tasarlayalım.
+1717	[div>div>button]	İletişime Geçin →
+1732	[div>div>span]	Çözümler
+1734	[div>div>span]	Hediye Kartı
+1736	[div>div>div]	🎁 Hediye Kartı Programı
+1737	[div>div>h1]	Hediye Kartı
+1738	[div>div>p]	Markanıza Özel Fiziksel & Dijital Hediye Kartı Programı
+1739	[div>div>p]	Şirketlerin kendi markalı hediye kartlarını oluşturmasını, satmasını ve kullanımını yönetmesini sağlayan uçtan uca platf
+1741	[div>div>button]	İletişime Geçin →
+1742	[div>div>button]	Ana Sayfaya Dön
+1748	[div>div>div]	Marka Kart Tasarımı
+1749	[div>div>div]	Şirketinize özel tasarım, baskı ve ihraç. Sezonluk, kampanya ya da özel gün temalı farklı kart tasarımları oluşturun.
+1753	[div>div>div]	Fiziksel & Dijital Kart
+1754	[div>div>div]	Mağazada satış için çipli veya barkodlu fiziksel kart; ya da e-posta / SMS ile anında iletilen dijital kod. Her ikisini 
+1759	[div>div>div]	Barkod okuyucu veya kasa yazılımı üzerinden anlık bakiye sorgulama ve harcama. Kasiyerin sıfır eforla hediye kartı kabul
+1763	[div>div>div]	POS & Mobil Ödeme
+1764	[div>div>div]	simiPOS entegrasyonu ile POS cihazından temassız veya çipli kullanım; ya da QR kod ile müşterinin kendi telefonundan öde
+1768	[div>div>div]	Bakiye & Geçerlilik Yönetimi
+1769	[div>div>div]	Son kullanma tarihi, kısmi harcama ve kalan bakiye sorgulama desteği. Müşteri bakiye takibini SMS veya mobil uygulama il
+1773	[div>div>div]	Merkezi Yönetim & Raporlama
+1774	[div>div>div]	Kart satışı, kullanım oranı ve kullanılmayan bakiye (breakage) takibi. Kampanya analitikleri ve gelir optimizasyonu için
+1784	[div>div>div]	Kullanım Senaryoları
+1790	[div>ul>li]	Mağaza rafında fiziksel hediye kartı satışı
+1791	[div>ul>li]	Doğum günü, yılbaşı, bayram kampanyaları
+1792	[div>ul>li]	Tüm şube ve online kanalda ortak kullanım
+1793	[div>ul>li]	İade yerine hediye kartı verme seçeneği
+1800	[div>ul>li]	Web sitesinden anlık dijital kod satışı
+1801	[div>ul>li]	E-posta veya SMS ile anında teslimat
+1802	[div>ul>li]	Online ödeme sayfasında kart kodu girişi
+1803	[div>ul>li]	Mobil uygulama ile QR kod kullanımı
+1810	[div>ul>li]	Çalışan ödülü ve yılbaşı hediyesi toplu alım
+1811	[div>ul>li]	Müşteri teşvik ve promosyon kampanyaları
+1812	[div>ul>li]	Tek fatura ile toplu kod ihracı
+1813	[div>ul>li]	Kurumsal dashboard ile kullanım takibi
+1823	[div>div>div]	🎯 Kimler İçin Uygun?
+1825	[div>ul>li]	Kendi markalı hediye kartı programı kurmak isteyen perakende zincirleri
+1826	[div>ul>li]	E-ticaret siteleri ve omnichannel mağazalar
+1827	[div>ul>li]	Restoran, kafe ve gıda zincirleri
+1828	[div>ul>li]	Çalışanlarına toplu hediye kartı vermek isteyen kurumlar
+1829	[div>ul>li]	Müşteri kampanyalarında hediye kodu kullanmak isteyen markalar
+1833	[div>div>div]	✨ Platform Faydaları
+1835	[div>ul>li]	Nakit yerine mağazaya bağlı harcama ile ciro güvencesi
+1836	[div>ul>li]	Kullanılmayan bakiye (breakage) geliri
+1837	[div>ul>li]	Yeni müşteri kazanımı — hediye alanlar ilk kez mağazaya geliyor
+1838	[div>ul>li]	Ortalama sepet tutarını artırma (kart değerinin üzerine harcama)
+1839	[div>ul>li]	Marka bilinirliği — kart cüzdanda taşındıkça reklam değeri
+1840	[div>ul>li]	Fiziksel + dijital + POS kanallarında tek platform yönetimi
+1848	[div>div>div]	Omnichannel Kullanım Akışı
+1851	[div>div>div]	Kart İhraç Kanalları
+1853	[div>div>span]	🏪 Mağaza Kasası
+1856	[div>div>span]	🏢 Kurumsal Toplu Sipariş
+1860	[div>div>div]	simiPayment Hediye Kartı Motoru
+1862	[div>div>span]	Kart Aktivasyon
+1863	[div>div>span]	Bakiye Yönetimi
+1864	[div>div>span]	İşlem Onaylama
+1869	[div>div>div]	Kullanım / Harcama Kanalları
+1872	[div>div>span]	💳 POS Cihazı (simiPOS)
+1873	[div>div>span]	📱 Mobil QR Ödeme
+1885	[div>div>div]	Ortalama breakage oranı — kullanılmayan bakiye işletme geliri olarak kalır
+1889	[div>div>div]	Hediye kartı kullananların kart değerini aşan harcama yapma oranı (global ortalama)
+1893	[div>div>div]	Hediye kartı ile gelen yeni müşterilerin tekrar ziyaret olasılığı artışı
+1900	[div>div>h3]	Hediye Kartı programınızı birlikte tasarlayalım
+1901	[div>div>p]	Uzman ekibimizle iletişime geçin, markanıza özel çözümü keşfedin.
+1903	[div>div>button]	İletişime Geçin →
+1934	[div>div>div]	Fırat Teknokent, Çaydaçıra Mah. Prof. Dr. Nuri Orhan Blv. No: 9 İç Kapı No: B05 Merkez / Elazığ
+2188	[div>div>p]	20 yılı aşkın deneyimimizle Türkiye'nin ödeme teknolojileri alanındaki güvenilir çözüm ortağı.
+2198	[div>div>a]	KampüsKart
+2199	[div>div>a]	Yemek Kartı
+2200	[div>div>a]	Sadakat Kartı
+2201	[div>div>a]	Hediye Kartı
+2221	[div>div>script]	/* ══════════════════════════════════════
+   i18n — TR / EN
+══════════════════════════════════════ */
+let currentLang = 

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simirna — M365 İmza · Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#EEF1F5; font-family:'Manrope',system-ui,sans-serif; color:#0A2540; padding:56px 24px 90px; }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:22px; font-weight:800; letter-spacing:-.01em; margin-bottom:6px; }
+  h1 b { color:#0066FF; }
+  .lead { font-family:'JetBrains Mono',monospace; font-size:12px; color:#7B8794; letter-spacing:.04em; line-height:1.8; margin-bottom:34px; }
+  .step { font-family:'JetBrains Mono',monospace; font-size:12px; color:#5A6B7B; line-height:1.9; background:#fff; border:1px solid #DCE2EA; border-radius:14px; padding:18px 22px; margin-bottom:26px; }
+  .step b { color:#0A2540; }
+  .label { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:#7B8794; margin:0 0 14px; display:flex; align-items:center; gap:10px; }
+  .label::before { content:""; width:18px; height:1px; background:#7B8794; }
+  .preview { background:#fff; border:1px solid #DCE2EA; border-radius:16px; padding:40px; margin-bottom:34px; }
+  .preview.dark-bg { background:#1c1c1e; }
+  pre { background:#0A2540; color:#CDE0FF; border-radius:14px; padding:22px; overflow:auto; font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.65; white-space:pre-wrap; word-break:break-word; margin-bottom:26px; }
+  .note { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#7B8794; line-height:1.8; margin-top:14px; }
+  .note b { color:#0A2540; }
+  .vars { border:1px solid #DCE2EA; border-radius:12px; overflow:hidden; margin-bottom:26px; }
+  .vars .row { display:grid; grid-template-columns:1fr 1fr 2fr; gap:0; padding:10px 18px; border-bottom:1px solid #DCE2EA; font-family:'JetBrains Mono',monospace; font-size:12px; }
+  .vars .row:last-child { border-bottom:none; }
+  .vars .row.head { background:#F6F8FA; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:#7B8794; }
+  .vars .row .v { color:#0066FF; font-weight:600; }
+  .vars .row .f { color:#0A2540; }
+  .vars .row .d { color:#7B8794; }
+  .badge { display:inline-block; background:#0066FF; color:#fff; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding:3px 10px; border-radius:4px; margin-bottom:10px; }
+  .badge.green { background:#0F6E56; }
+  .badge.warn { background:#854F0B; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Simirna <b>Technology</b> — M365 İmzası</h1>
+  <p class="lead">Exchange Online Transport Rule · Dark-Mode Safe · Dinamik AD Değişkenleri</p>
+
+  <!-- KURULUM -->
+  <div class="step">
+    <b>Kurulum:</b> Exchange Admin Center → Mail flow → Rules → + Add a rule → <b>Apply disclaimers</b><br>
+    Action: <b>Append a disclaimer</b> → Enter text → aşağıdaki HTML'yi yapıştırın.<br>
+    Fallback: <b>Wrap</b> seçin (şifreli maillerde imzanın kopmaması için).<br>
+    Condition: <b>The sender is located → Inside the organization</b> ekleyin (sadece giden maillere).<br>
+    Exception: <b>The message header includes → X-Simirna-Signed: true</b> ekleyin (tekrar eklemeyi önler).
+  </div>
+
+  <!-- DEĞİŞKEN TABLOSU -->
+  <div class="label">M365 AD Değişkenleri</div>
+  <div class="vars">
+    <div class="row head"><span>Değişken</span><span>AD Alanı</span><span>M365 Admin'de Doldurulacak Yer</span></div>
+    <div class="row"><span class="v">%%DisplayName%%</span><span class="f">displayName</span><span class="d">Kullanıcı adı — otomatik gelir</span></div>
+    <div class="row"><span class="v">%%Title%%</span><span class="f">title / jobTitle</span><span class="d">M365 Admin → Kullanıcılar → Profil → Başlık</span></div>
+    <div class="row"><span class="v">%%Department%%</span><span class="f">department</span><span class="d">M365 Admin → Kullanıcılar → Profil → Departman</span></div>
+    <div class="row"><span class="v">%%PhoneNumber%%</span><span class="f">telephoneNumber</span><span class="d">M365 Admin → Kullanıcılar → İletişim → İş telefonu</span></div>
+    <div class="row"><span class="v">%%MobilePhone%%</span><span class="f">mobile</span><span class="d">M365 Admin → Kullanıcılar → İletişim → Cep telefonu</span></div>
+    <div class="row"><span class="v">%%UserLogonName%%</span><span class="f">userPrincipalName</span><span class="d">E-posta adresi — otomatik gelir</span></div>
+  </div>
+
+  <!-- PREVIEW LIGHT -->
+  <div class="label">Önizleme — Light Mode</div>
+  <div class="preview">
+    <!-- ═══════ KOPYALANACAK İMZA HTML BAŞLANGIÇ ═══════ -->
+    <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif; max-width:560px;">
+      <tr>
+        <!-- SOL: Logo + Wordmark — background:#ffffff koruması dark moda karşı -->
+        <td style="vertical-align:middle; padding-right:22px; border-right:2.5px solid #0066FF; background:#ffffff;">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- İkon PNG — SVG e-postada güvenilmez, PNG kullanın -->
+              <td style="vertical-align:middle; padding-right:11px; background:#ffffff;">
+                <img src="https://simirnatech.com/img/simirna-icon-512.png"
+                     alt="Simirna"
+                     width="44" height="44"
+                     style="display:block; border:0; width:44px; height:44px;">
+              </td>
+              <!-- Wordmark -->
+              <td style="vertical-align:middle; background:#ffffff; padding-right:6px;">
+                <div style="font-size:26px; font-weight:800; color:#0A2540; line-height:1; letter-spacing:-.5px; font-family:Arial,Helvetica,sans-serif;">
+                  <span style="color:#0066FF;">Simi</span>rna
+                </div>
+                <div style="font-size:8px; color:#7B8794; letter-spacing:.26em; text-transform:uppercase; margin-top:5px; font-family:Arial,Helvetica,sans-serif; font-weight:600;">
+                  Technology
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <!-- SAĞ: Kişisel bilgiler -->
+        <td style="vertical-align:middle; padding-left:22px;">
+          <!-- İsim -->
+          <div style="font-size:15px; font-weight:700; color:#0A2540; margin-bottom:3px; font-family:Arial,Helvetica,sans-serif;">
+            %%DisplayName%%
+          </div>
+          <!-- Unvan · Departman -->
+          <div style="font-size:11.5px; color:#0066FF; font-weight:700; margin-bottom:10px; font-family:Arial,Helvetica,sans-serif;">
+            %%Title%%<span style="color:#B0BCC8;"> &nbsp;·&nbsp; </span>%%Department%%
+          </div>
+          <!-- İletişim -->
+          <div style="font-size:11px; color:#6B7B8E; line-height:2; font-family:Arial,Helvetica,sans-serif;">
+            %%PhoneNumber%%<br>
+            <a href="mailto:%%UserLogonName%%" style="color:#6B7B8E; text-decoration:none;">%%UserLogonName%%</a><br>
+            <a href="https://simirnatech.com" style="color:#0066FF; text-decoration:none; font-weight:700;">simirnatech.com</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!-- ═══════ KOPYALANACAK İMZA HTML BİTİŞ ═══════ -->
+  </div>
+
+  <!-- PREVIEW DARK -->
+  <div class="label">Önizleme — Dark Mode (Apple Mail / Gmail Dark)</div>
+  <div class="preview dark-bg">
+    <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif; max-width:560px;">
+      <tr>
+        <td style="vertical-align:middle; padding-right:22px; border-right:2.5px solid #0066FF; background:#ffffff;">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="vertical-align:middle; padding-right:11px; background:#ffffff;">
+                <img src="https://simirnatech.com/img/simirna-icon-512.png"
+                     alt="Simirna" width="44" height="44"
+                     style="display:block; border:0; width:44px; height:44px;">
+              </td>
+              <td style="vertical-align:middle; background:#ffffff; padding-right:6px;">
+                <div style="font-size:26px; font-weight:800; color:#0A2540; line-height:1; letter-spacing:-.5px; font-family:Arial,Helvetica,sans-serif;">
+                  <span style="color:#0066FF;">Simi</span>rna
+                </div>
+                <div style="font-size:8px; color:#7B8794; letter-spacing:.26em; text-transform:uppercase; margin-top:5px; font-family:Arial,Helvetica,sans-serif; font-weight:600;">
+                  Technology
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="vertical-align:middle; padding-left:22px;">
+          <div style="font-size:15px; font-weight:700; color:#ffffff; margin-bottom:3px; font-family:Arial,Helvetica,sans-serif;">
+            %%DisplayName%%
+          </div>
+          <div style="font-size:11.5px; color:#3D8BFF; font-weight:700; margin-bottom:10px; font-family:Arial,Helvetica,sans-serif;">
+            %%Title%%<span style="color:#3A506B;"> &nbsp;·&nbsp; </span>%%Department%%
+          </div>
+          <div style="font-size:11px; color:#8e8e93; line-height:2; font-family:Arial,Helvetica,sans-serif;">
+            %%PhoneNumber%%<br>
+            <a href="mailto:%%UserLogonName%%" style="color:#8e8e93; text-decoration:none;">%%UserLogonName%%</a><br>
+            <a href="https://simirnatech.com" style="color:#3D8BFF; text-decoration:none; font-weight:700;">simirnatech.com</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- KOD -->
+  <div class="label">Exchange Admin Center'a Yapıştırılacak HTML</div>
+  <pre>&lt;table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;max-width:560px;"&gt;
+  &lt;tr&gt;
+
+    &lt;!-- SOL: Logo bloğu — background:#ffffff dark mod koruması --&gt;
+    &lt;td style="vertical-align:middle;padding-right:22px;border-right:2.5px solid #0066FF;background:#ffffff;"&gt;
+      &lt;table cellpadding="0" cellspacing="0" border="0"&gt;
+        &lt;tr&gt;
+          &lt;td style="vertical-align:middle;padding-right:11px;background:#ffffff;"&gt;
+            &lt;img src="https://simirnatech.com/img/simirna-icon-512.png"
+                 alt="Simirna" width="44" height="44"
+                 style="display:block;border:0;width:44px;height:44px;"&gt;
+          &lt;/td&gt;
+          &lt;td style="vertical-align:middle;background:#ffffff;padding-right:6px;"&gt;
+            &lt;div style="font-size:26px;font-weight:800;color:#0A2540;line-height:1;letter-spacing:-.5px;font-family:Arial,Helvetica,sans-serif;"&gt;
+              &lt;span style="color:#0066FF;"&gt;Simi&lt;/span&gt;rna
+            &lt;/div&gt;
+            &lt;div style="font-size:8px;color:#7B8794;letter-spacing:.26em;text-transform:uppercase;margin-top:5px;font-family:Arial,Helvetica,sans-serif;font-weight:600;"&gt;
+              Technology
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+
+    &lt;!-- SAĞ: Dinamik kullanıcı bilgileri --&gt;
+    &lt;td style="vertical-align:middle;padding-left:22px;"&gt;
+      &lt;div style="font-size:15px;font-weight:700;color:#0A2540;margin-bottom:3px;font-family:Arial,Helvetica,sans-serif;"&gt;
+        %%DisplayName%%
+      &lt;/div&gt;
+      &lt;div style="font-size:11.5px;color:#0066FF;font-weight:700;margin-bottom:10px;font-family:Arial,Helvetica,sans-serif;"&gt;
+        %%Title%%&lt;span style="color:#B0BCC8;"&gt; &amp;nbsp;·&amp;nbsp; &lt;/span&gt;%%Department%%
+      &lt;/div&gt;
+      &lt;div style="font-size:11px;color:#6B7B8E;line-height:2;font-family:Arial,Helvetica,sans-serif;"&gt;
+        %%PhoneNumber%%&lt;br&gt;
+        &lt;a href="mailto:%%UserLogonName%%" style="color:#6B7B8E;text-decoration:none;"&gt;%%UserLogonName%%&lt;/a&gt;&lt;br&gt;
+        &lt;a href="https://simirnatech.com" style="color:#0066FF;text-decoration:none;font-weight:700;"&gt;simirnatech.com&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/td&gt;
+
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+
+  <div class="label">Önemli Notlar</div>
+  <div class="step">
+    <b>Logo URL:</b> PNG dosyasını herkese açık bir URL'de barındırın (CDN, web siteniz vb.).
+    E-posta istemcileri gömülü SVG render etmez — mutlaka <b>PNG</b> kullanın.<br><br>
+    <b>Dark mode koruması neden çalışır:</b> Logo ve wordmark hücrelerine <b>background:#ffffff</b> yazıldı.
+    E-posta istemcileri inline background-color olan hücrelere dokunmaz; o beyaz alan dark modda da
+    korunur, içindeki lacivert renkler bozulmaz.<br><br>
+    <b>Boş AD alanları:</b> Kullanıcının Title veya PhoneNumber alanı boşsa Exchange değişkeni
+    olduğu gibi bırakır (%%Title%% görünür). Tüm kullanıcıların AD bilgilerini doldurun ya da
+    PowerShell ile kontrol edin:<br>
+    <b>Get-MsolUser -All | Select DisplayName, Title, PhoneNumber, Department | Export-Csv users.csv</b><br><br>
+    <b>Tekrarlayan imza sorunu:</b> Exception olarak "Subject or body includes → %%DisplayName%%" veya
+    özel bir header ekleyin, aynı mail zincirinde imza tekrar eklenmez.
+  </div>
+
+</div>
+</body>
+</html>
