@@ -24,7 +24,7 @@ The site uses Google's recommended subdirectory pattern for international SEO: *
 simirnaweb/
 ├── index.html, simipayment.html, simipos.html, simicard.html,   ← Turkish pages (site root)
 │   kampuskart.html, yemekkarti.html, sadakatkart.html,
-│   hedijekarti.html, hakkimizda.html, referanslar.html, contact.html
+│   hediyekarti.html, hakkimizda.html, referanslar.html, contact.html
 ├── en/                                                            ← English mirror, identical filenames
 │   ├── index.html, simipayment.html, ...
 ├── css/styles.css   ← single shared stylesheet for both languages
